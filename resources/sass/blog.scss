@@ -1,0 +1,38 @@
+@use 'layout';
+@use 'navbar';
+@use 'footer';
+
+.constrainedContent {
+    width: 100%;
+    margin: 0 auto;
+
+    box-sizing: border-box;
+    padding: 0 10px;
+
+}
+
+@media screen and (min-width: 1408px) {
+    .constrainedContent {
+        max-width: 1344px;
+        padding: 0;
+    }
+}
+
+@media screen and (min-width: 1216px) {
+    .constrainedContent {
+        max-width: 1152px;
+        padding: 0;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .constrainedContent {
+        max-width: 960px;
+        padding: 0;
+    }
+
+    html {
+        margin-right: calc(-100vw + 100%);
+        overflow-x: hidden;
+    }
+}

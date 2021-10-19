@@ -1,0 +1,119 @@
+$dark-color: #073B3A;
+$active-color: #33CA7F;
+$light-color: #F6F4F3;
+$muted-color: #e2e1df;
+
+nav.top {
+    background-color: $light-color;
+
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        display: flex;
+    }
+
+    li {
+        display: flex;
+        flex: 0 1 auto;
+        flex-direction: row;
+    }
+
+    a {
+        align-self: center;
+
+        line-height: 1.5;
+        font-size: 21px;
+        font-weight: bold;
+        text-decoration: none;
+        color: $dark-color;
+        border-top: 2px solid transparent;
+        border-bottom: 2px solid transparent;
+
+        transition: all 0.2s ease-in-out;
+    }
+    a:hover {
+        color: $active-color;
+    }
+
+    a.active {
+        color: $active-color;
+        border-bottom: 2px solid $active-color;
+    }
+}
+
+nav.top {
+    .container {
+        width: 100%;
+        margin: 0 auto;
+
+        height: 80px;
+
+        padding: 0 10px;
+        box-sizing: border-box;
+
+        display: flex;
+        flex-grow: 1;
+        flex-shrink: 0;
+    }
+
+    @media screen and (min-width: 1408px) {
+        .container {
+            max-width: 1344px;
+            padding: 0;
+        }
+    }
+
+    @media screen and (min-width: 1216px) {
+        .container {
+            max-width: 1152px;
+            padding: 0;
+        }
+    }
+
+    @media screen and (min-width: 1024px) {
+        .container {
+            max-width: 960px;
+            padding: 0;
+        }
+    }
+}
+
+nav.top {
+    .navbar-start, .navbar-end {
+        flex: 1 1 auto;
+    }
+    .navbar-start {
+        justify-content: flex-start;
+        text-align: left;
+
+        li + li {
+            margin-left: 1.5em;
+        }
+    }
+    .navbar-end {
+        justify-content: flex-end;
+        text-align: right;
+
+        a {
+            border: 2px solid $dark-color;
+            padding: 5px 20px;
+            border-radius: 20px;
+        }
+
+        a:hover, a.active {
+            color: $light-color;
+            background-color: $dark-color;
+            border: 2px solid $dark-color;
+        }
+    }
+}
+
+
+
+@media print {
+    nav.top {
+        display: none;
+    }
+}

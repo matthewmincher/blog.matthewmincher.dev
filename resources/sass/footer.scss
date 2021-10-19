@@ -1,0 +1,22 @@
+$dark-color: #073B3A;
+$active-color: #33CA7F;
+$light-color: #F6F4F3;
+$muted-color: #e2e1df;
+
+footer.main {
+    background-color: $light-color;
+    border-top: 5px solid $muted-color;
+
+    min-height: 60px;
+    padding: 10px 0;
+    box-sizing: border-box;
+
+    font-size: 13px;
+    color: $dark-color;
+}
+
+@media print {
+    footer.main {
+        display: none;
+    }
+}

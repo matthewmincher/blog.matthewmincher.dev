@@ -1,6 +1,10 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\BlogPostController;
+use App\Models\BlogPost;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +17,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::model('blog_post', BlogPost::class);
+Route::resource('posts', BlogPostController::class)->parameters([
+    'posts' => 'blog_post'
+]);
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -20,3 +29,10 @@ Route::get('/', function () {
 Route::get('/test', function () {
 
 });
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
+
