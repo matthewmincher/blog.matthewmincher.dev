@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\BlogPostController;
+use App\Http\Controllers\PostController;
 use App\Models\BlogPost;
 
 /*
@@ -18,7 +18,7 @@ use App\Models\BlogPost;
 */
 
 Route::model('blog_post', BlogPost::class);
-Route::resource('posts', BlogPostController::class)->parameters([
+Route::resource('posts', PostController::class)->parameters([
     'posts' => 'blog_post'
 ]);
 

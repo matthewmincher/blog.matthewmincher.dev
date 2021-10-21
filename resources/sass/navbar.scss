@@ -44,7 +44,7 @@ nav.top {
 }
 
 nav.top {
-    .container {
+    .wrapper {
         width: 100%;
         margin: 0 auto;
 
@@ -59,21 +59,21 @@ nav.top {
     }
 
     @media screen and (min-width: 1408px) {
-        .container {
+        .wrapper {
             max-width: 1344px;
             padding: 0;
         }
     }
 
     @media screen and (min-width: 1216px) {
-        .container {
+        .wrapper {
             max-width: 1152px;
             padding: 0;
         }
     }
 
     @media screen and (min-width: 1024px) {
-        .container {
+        .wrapper {
             max-width: 960px;
             padding: 0;
         }

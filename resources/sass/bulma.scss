@@ -1,0 +1,23 @@
+// Import a Google Font
+
+// Set your brand colors
+$dark-color: #073B3A;
+$active-color: #33CA7F;
+$light-color: #F6F4F3;
+
+// Update Bulma's global variables
+$family-sans-serif: "Calibri", sans-serif;
+$grey-dark: $dark-color;
+$grey-light: $light-color;
+$primary: $active-color;
+$link: #000000;
+
+// Update some of Bulma's component variables
+$control-border-width: 2px;
+$input-background-color: #F6F4F3;
+$input-border-color: transparent;
+$input-shadow: none;
+$content-heading-color: #000000;
+
+// Import the rest of Bulma
+@import "~bulma/bulma.sass";

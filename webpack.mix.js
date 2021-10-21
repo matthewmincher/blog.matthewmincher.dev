@@ -18,4 +18,6 @@ mix.js('resources/js/app.js', 'public/js')
         require('tailwindcss'),
         require('autoprefixer'),
     ])
-    .sass('resources/sass/blog.scss', 'public/css');
+    .sass('resources/sass/bulma.scss', 'public/css')
+    .sass('resources/sass/blog.scss', 'public/css')
+    .sass('resources/sass/editpost.scss', 'public/css');

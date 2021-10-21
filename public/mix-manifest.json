@@ -2,5 +2,7 @@
     "/js/app.js": "/js/app.js",
     "/css/app.css": "/css/app.css",
     "/css/normalize.css": "/css/normalize.css",
-    "/css/blog.css": "/css/blog.css"
+    "/css/editpost.css": "/css/editpost.css",
+    "/css/blog.css": "/css/blog.css",
+    "/css/bulma.css": "/css/bulma.css"
 }

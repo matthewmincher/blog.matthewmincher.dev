@@ -2,7 +2,7 @@ $dark-color: #073B3A;
 $active-color: #33CA7F;
 $light-color: #F6F4F3;
 
-body.container {
+body.wrapper {
     font-family: "Calibri", sans-serif;
     border-top: 5px solid $dark-color;
 
@@ -12,18 +12,18 @@ body.container {
     box-sizing: border-box;
 }
 
-body.container > .content {
+body.wrapper > .wrapper-content {
     flex-grow: 1;
     overflow:hidden;
 }
-
-body.container > .content a {
+/*
+body.wrapper > .wrapper-content a {
     color: inherit;
     text-decoration: none;
     border-bottom: 1px dashed;
 }
-body.container > .content a:hover {
+body.wrapper > .wrapper-content a:hover {
     border-color: $active-color;
     color: $active-color;
-}
+}*/
 

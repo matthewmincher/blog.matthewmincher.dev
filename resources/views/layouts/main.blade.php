@@ -5,14 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{ mix('css/normalize.css') }}">
+    <link rel="stylesheet" href="{{ mix('css/bulma.css') }}">
     <link rel="stylesheet" href="{{ mix('css/blog.css') }}">
+    @stack('css')
     <title>@yield('title') | matthewmincher.dev</title>
 </head>
 
-<body class="container">
+<body class="wrapper">
     <nav class="top">
-        <div class="container">
+        <div class="wrapper">
             <ul class="navbar-start">
                 <li><a href="//www.matthewmincher.dev">Home</a></li>
                 <li><a href="//www.matthewmincher.dev/cv">CV</a></li>
@@ -25,7 +26,7 @@
         </div>
     </nav>
 
-    <div class="content">
+    <div class="wrapper-content">
         @yield('content')
     </div>
 

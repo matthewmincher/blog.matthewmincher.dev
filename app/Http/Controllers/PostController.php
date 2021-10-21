@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BlogPost;
 use Illuminate\Http\Request;
 
-class BlogPostController extends Controller
+class PostController extends Controller
 {
     public function __construct()
     {

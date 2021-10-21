@@ -17,3 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+
+Route::prefix('v1')->name('api.v1.')->middleware(['forcejson'])->group(function () {
+    Route::apiResource('categories', \App\Http\Controllers\Api\V1\CategoryController::class)->parameters([
+        'categories' => 'blog_category'
+    ]);
+    Route::apiResource('tags', \App\Http\Controllers\Api\V1\TagController::class);
+});
