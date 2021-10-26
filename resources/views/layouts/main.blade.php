@@ -32,10 +32,24 @@
 
     <footer class="main">
         <div class="constrainedContent">
-            © Matthew Mincher 2021
+            <div class="columns is-gapless">
+                <div class="column">
+                    © Matthew Mincher 2021
+                </div>
+                <div class="column has-text-right">
+                    <div>
+                        @auth
+                            <a href="{{ url('/dashboard') }}" class="">Dashboard</a>
+                        @else
+                            <a href="{{ route('login') }}" class="">Log in</a>
+                        @endauth
+                    </div>
+                </div>
+            </div>
+
         </div>
     </footer>
 </body>
 
-
+@stack('js')
 </html>

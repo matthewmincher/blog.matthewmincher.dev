@@ -1,8 +1,15 @@
 @extends('layouts.main')
 
 @push('css')
-    <link rel="stylesheet" href="{{ mix('css/editpost.css') }}">
+    <link rel="stylesheet" href="{{ mix('css/posts/edit.css') }}">
 @endpush
+@push('js')
+    <script type="text/javascript">
+        window.tagWhitelist = @json($tagNames);
+    </script>
+    <script type="module" src="{{ mix('js/posts/edit.js') }}" defer></script>
+@endpush
+
 @section('title', 'New Post')
 
 @section('content')
@@ -11,28 +18,10 @@
             New Blog Post
         </h1>
 
-        <form method="post">
+        <form method="post" action="{{ route('posts.store') }}">
             @csrf
 
-            <div class="field">
-                <label class="label">Title</label>
-                <div class="control">
-                    <input id="title" name="title" class="input" type="text" value="{{old('title')}}">
-                </div>
-            </div>
-
-            <div class="field">
-                <label class="label">Content</label>
-                <div class="control">
-                    <textarea id="body" name="body" class="textarea" placeholder=""></textarea>
-                </div>
-            </div>
-
-            <div class="buttons">
-                <a class="button is-primary">Primary</a>
-                <a class="button is-link">Link</a>
-            </div>
-
+            @include('posts._form')
         </form>
     </div>
 @endsection

@@ -21293,10 +21293,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/sass/editpost.scss":
-/*!**************************************!*\
-  !*** ./resources/sass/editpost.scss ***!
-  \**************************************/
+/***/ "./resources/sass/posts/edit.scss":
+/*!****************************************!*\
+  !*** ./resources/sass/posts/edit.scss ***!
+  \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -21650,7 +21650,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 			"/js/app": 0,
 /******/ 			"css/app": 0,
 /******/ 			"css/normalize": 0,
-/******/ 			"css/editpost": 0,
+/******/ 			"css/posts/edit": 0,
 /******/ 			"css/blog": 0,
 /******/ 			"css/bulma": 0
 /******/ 		};
@@ -21702,12 +21702,12 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/normalize","css/editpost","css/blog","css/bulma"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/normalize","css/editpost","css/blog","css/bulma"], () => (__webpack_require__("./resources/sass/bulma.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/normalize","css/editpost","css/blog","css/bulma"], () => (__webpack_require__("./resources/sass/blog.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/normalize","css/editpost","css/blog","css/bulma"], () => (__webpack_require__("./resources/sass/editpost.scss")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/normalize","css/editpost","css/blog","css/bulma"], () => (__webpack_require__("./resources/css/normalize.css")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app","css/normalize","css/editpost","css/blog","css/bulma"], () => (__webpack_require__("./resources/css/app.css")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/normalize","css/posts/edit","css/blog","css/bulma"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/normalize","css/posts/edit","css/blog","css/bulma"], () => (__webpack_require__("./resources/sass/bulma.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/normalize","css/posts/edit","css/blog","css/bulma"], () => (__webpack_require__("./resources/sass/blog.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/normalize","css/posts/edit","css/blog","css/bulma"], () => (__webpack_require__("./resources/sass/posts/edit.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/normalize","css/posts/edit","css/blog","css/bulma"], () => (__webpack_require__("./resources/css/normalize.css")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app","css/normalize","css/posts/edit","css/blog","css/bulma"], () => (__webpack_require__("./resources/css/app.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

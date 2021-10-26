@@ -1,8 +1,9 @@
 {
     "/js/app.js": "/js/app.js",
+    "/js/posts/edit.js": "/js/posts/edit.js",
     "/css/app.css": "/css/app.css",
     "/css/normalize.css": "/css/normalize.css",
-    "/css/editpost.css": "/css/editpost.css",
+    "/css/posts/edit.css": "/css/posts/edit.css",
     "/css/blog.css": "/css/blog.css",
     "/css/bulma.css": "/css/bulma.css"
 }

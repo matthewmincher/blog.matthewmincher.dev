@@ -20,4 +20,6 @@ mix.js('resources/js/app.js', 'public/js')
     ])
     .sass('resources/sass/bulma.scss', 'public/css')
     .sass('resources/sass/blog.scss', 'public/css')
-    .sass('resources/sass/editpost.scss', 'public/css');
+
+    .js('resources/js/posts/edit.js', 'public/js/posts')
+    .sass('resources/sass/posts/edit.scss', 'public/css/posts');
