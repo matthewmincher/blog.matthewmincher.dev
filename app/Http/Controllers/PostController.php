@@ -20,13 +20,31 @@ class PostController extends Controller
         ]);
     }
 
+    private static function synchroniseTags($tagList, BlogPost $blogPost){
+        $existingTags = BlogTag::all();
+        $selectedTags = new Collection();
+
+        foreach($tagList as $tagTitle){
+            $tag = $existingTags->firstWhere('title', $tagTitle);
+
+            if($tag === null){
+                $tag = BlogTag::create(['title' => $tagTitle, 'slug' => Str::slug($tagTitle)]);
+            }
+
+            $selectedTags->add($tag);
+        }
+
+        $blogPost->tags()->sync($selectedTags);
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+
         return view('posts.index', [
-            'posts' => BlogPost::paginate(10)
+            'posts' => BlogPost::with(['category', 'tags', 'user'])->paginate(5)
         ]);
     }
 
@@ -41,7 +59,7 @@ class PostController extends Controller
         }
 
         return view('posts.create', [
-            'categories' => BlogCategoryResource::collection(BlogCategory::orderBy('title', 'asc')->get()),
+            'categories' => BlogCategoryResource::collection(BlogCategory::orderBy('title')->get()),
             'tagNames' => $tagNames
         ]);
     }
@@ -65,22 +83,7 @@ class PostController extends Controller
         return redirect()->route('posts.show', ['blog_post' => $post]);
     }
 
-    private static function synchroniseTags($tagList, BlogPost $blogPost){
-        $existingTags = BlogTag::all();
-        $selectedTags = new Collection();
 
-        foreach($tagList as $tagTitle){
-            $tag = $existingTags->firstWhere('title', $tagTitle);
-
-            if($tag === null){
-                $tag = BlogTag::create(['title' => $tagTitle, 'slug' => Str::slug($tagTitle)]);
-            }
-
-            $selectedTags->add($tag);
-        }
-
-        $blogPost->tags()->sync($selectedTags);
-    }
 
     /**
      * Display the specified resource.
@@ -91,29 +94,52 @@ class PostController extends Controller
     public function show(BlogPost $blogPost)
     {
 
+        return view('posts.show', [
+            'post' => $blogPost
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  BlogPost  $blogPost
-     * @return \Illuminate\Http\Response
      */
     public function edit(BlogPost $blogPost)
     {
-        //
+
+        $tagNames = [];
+        foreach(BlogTag::all() as $tag){
+            $tagNames[] = $tag->title;
+        }
+
+        $tagifyValue = json_encode(
+            $blogPost->tags->map(function(BlogTag $tag){
+                return ['value' => $tag->title];
+            })
+        );
+
+        return view('posts.edit', [
+            'tagNames' => $tagNames,
+            'categories' => BlogCategoryResource::collection(BlogCategory::orderBy('title')->get()),
+            'post' => $blogPost,
+            'tagifyValue' => $tagifyValue,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  StorePostRequest $request
      * @param  BlogPost  $blogPost
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BlogPost $blogPost)
+    public function update(StorePostRequest $request, BlogPost $blogPost)
     {
-        //
+        $validated = $request->validated();
+
+        $blogPost->fill($validated)->save();
+        self::synchroniseTags($validated['tags'], $blogPost);
+
+        return redirect()->route('posts.show', ['blog_post' => $blogPost]);
     }
 
     /**

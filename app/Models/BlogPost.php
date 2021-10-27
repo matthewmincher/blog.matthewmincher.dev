@@ -49,7 +49,7 @@ class BlogPost extends Model
         return $this->hasMany(BlogPostComment::class);
     }
     public function category(){
-        return $this->belongsTo(BlogCategory::class);
+        return $this->belongsTo(BlogCategory::class, 'blog_category_id');
     }
     public function tags(){
         return $this->belongsToMany(BlogTag::class, 'blog_post_tags');

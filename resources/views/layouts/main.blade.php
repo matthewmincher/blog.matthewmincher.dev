@@ -17,11 +17,21 @@
             <ul class="navbar-start">
                 <li><a href="//www.matthewmincher.dev">Home</a></li>
                 <li><a href="//www.matthewmincher.dev/cv">CV</a></li>
-                <li><a class="active" aria-current="page" href="/posts/">Blog</a></li>
+                <li><a class="active" aria-current="page" href="{{route('posts.index')}}">Blog</a></li>
             </ul>
 
             <ul class="navbar-end">
                 <li><a href="//www.matthewmincher.dev/contact">Get in Touch</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <nav class="top-sub">
+        <div class="wrapper">
+            <ul class="navbar-start">
+                <li><a href="{{route('posts.index')}}" class="{{(request()->routeIs('posts.*')) ? 'active' : ''}}">Posts</a></li>
+                <li><a href="#" class="{{(request()->routeIs('categories.*')) ? 'active' : ''}}">Categories</a></li>
+                <li><a href="#" class="{{(request()->routeIs('tags.*')) ? 'active' : ''}}">Tags</a></li>
             </ul>
         </div>
     </nav>

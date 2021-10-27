@@ -110,10 +110,108 @@ nav.top {
     }
 }
 
+nav.top-sub {
+    background-color: $light-color;
 
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
 
-@media print {
-    nav.top {
-        display: none;
+        display: flex;
+    }
+
+    li {
+        display: flex;
+        flex: 0 1 auto;
+        flex-direction: row;
+
+        a {
+            align-self: center;
+
+            line-height: 1.5;
+            font-size: 21px;
+            font-weight: bold;
+            text-decoration: none;
+            color: $dark-color;
+            border-top: 2px solid transparent;
+            border-bottom: 2px solid transparent;
+            font-size: 1em;
+
+            transition: all 0.2s ease-in-out;
+        }
+        a:hover {
+            color: $active-color;
+            border-top: 2px solid transparent;
+            border-bottom: 2px solid transparent;
+        }
+
+        a.active {
+            color: $active-color;
+            border-bottom: 2px solid $active-color;
+        }
+    }
+}
+
+nav.top-sub .wrapper {
+    width: 100%;
+    margin: 0 auto;
+
+    padding: 0 10px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+@media screen and (min-width: 1408px) {
+    nav.top-sub .wrapper {
+        max-width: 1344px;
+        padding: 0;
+    }
+}
+
+@media screen and (min-width: 1216px) {
+    nav.top-sub .wrapper {
+        max-width: 1152px;
+        padding: 0;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    nav.top-sub .wrapper {
+        max-width: 960px;
+        padding: 0;
+    }
+}
+
+nav.top-sub {
+    .navbar-start, .navbar-end {
+        flex: 1 1 auto;
+    }
+    .navbar-start {
+        justify-content: flex-start;
+        text-align: left;
+
+        li + li {
+            margin-left: 1.5em;
+        }
+    }
+    .navbar-end {
+        justify-content: flex-end;
+        text-align: right;
+
+        a {
+            border: 2px solid $dark-color;
+            padding: 5px 20px;
+            border-radius: 20px;
+        }
+
+        a:hover, a.active {
+            color: $light-color;
+            background-color: $dark-color;
+            border: 2px solid $dark-color;
+        }
     }
 }
