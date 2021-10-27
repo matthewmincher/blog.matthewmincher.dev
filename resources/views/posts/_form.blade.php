@@ -23,22 +23,30 @@
 </div>
 
 <div class="field">
+    <label class="label">Tags</label>
+
+    <div class="control">
+        <input id="tagInput" class="input" type="text" name="tags" value="{{old('tags')}}" />
+    </div>
+    @error('tags')
+    <p class="help is-danger">{{ $message }}</p>
+    @enderror
+    @error('tags.*')
+    <p class="help is-danger">{{ $message }}</p>
+    @enderror
+</div>
+
+<div class="field">
     <label class="label">Content</label>
     <div class="control">
-        <textarea id="content" name="content" class="textarea{{($errors->has('content')) ? ' is-danger' : ''}}" placeholder="">{{old('content')}}</textarea>
+        <textarea id="content" name="content" class="textarea" placeholder="" style="height: 350px; visibility: hidden">{{old('content')}}</textarea>
     </div>
     @error('content')
     <p class="help is-danger">{{ $message }}</p>
     @enderror
 </div>
 
-<div class="field">
-    <label class="label">Tags</label>
 
-    <div class="control">
-        <input id="tagInput" class="input" type="text" name="tags" value="{{old('tags')}}" />
-    </div>
-</div>
 
 <div class="buttons">
     <button class="button is-primary" type="submit">Add Post</button>

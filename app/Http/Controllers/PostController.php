@@ -7,6 +7,7 @@ use App\Http\Resources\V1\BlogCategoryResource;
 use App\Models\BlogCategory;
 use App\Models\BlogPost;
 use App\Models\BlogTag;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -59,7 +60,26 @@ class PostController extends Controller
 
         $post = $request->user()->posts()->create($validated);
 
+        self::synchroniseTags($validated['tags'], $post);
+
         return redirect()->route('posts.show', ['blog_post' => $post]);
+    }
+
+    private static function synchroniseTags($tagList, BlogPost $blogPost){
+        $existingTags = BlogTag::all();
+        $selectedTags = new Collection();
+
+        foreach($tagList as $tagTitle){
+            $tag = $existingTags->firstWhere('title', $tagTitle);
+
+            if($tag === null){
+                $tag = BlogTag::create(['title' => $tagTitle, 'slug' => Str::slug($tagTitle)]);
+            }
+
+            $selectedTags->add($tag);
+        }
+
+        $blogPost->tags()->sync($selectedTags);
     }
 
     /**

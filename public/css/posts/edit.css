@@ -558,3 +558,13 @@
   background: lightyellow;
   border-color: gold;
 }
+
+.CodeMirror,
+.CodeMirror-scroll {
+  max-height: 300px;
+}
+
+.CodeMirror-fullscreen.CodeMirror,
+.CodeMirror-fullscreen .CodeMirror-scroll {
+  max-height: none;
+}

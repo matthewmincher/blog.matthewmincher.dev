@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Arr;
 
 class StorePostRequest extends FormRequest
 {
@@ -16,6 +17,27 @@ class StorePostRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'tags' => $this->formatTags($this->tags)
+        ]);
+    }
+
+    protected function formatTags(?string $tags){
+        if($tags === null){
+            return null;
+        }
+
+        $array = json_decode($tags);
+
+        if(is_array($array)){
+            $array = Arr::pluck($array, 'value');
+        }
+
+        return $array;
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -23,10 +45,13 @@ class StorePostRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
             'title' => 'required|min:3|max:30',
             'content' => 'required|min:10',
-            'blog_category_id' => 'required|exists:App\Models\BlogCategory,id'
+            'blog_category_id' => 'required|exists:App\Models\BlogCategory,id',
+            'tags' => 'nullable|array',
+            'tags.*' => 'required|min:3|max:30'
         ];
     }
 }

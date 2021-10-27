@@ -10,6 +10,7 @@ body.wrapper {
 body.wrapper > .wrapper-content {
   flex-grow: 1;
   overflow: hidden;
+  padding-bottom: 2em;
 }
 
 /*

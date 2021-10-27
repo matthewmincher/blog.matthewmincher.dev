@@ -7,13 +7,13 @@
     <script type="text/javascript">
         window.tagWhitelist = @json($tagNames);
     </script>
-    <script type="module" src="{{ mix('js/posts/edit.js') }}" defer></script>
+    <script type="module" src="{{ mix('js/posts/edit.js') }}"></script>
 @endpush
 
 @section('title', 'New Post')
 
 @section('content')
-    <div class="constrainedContent content">
+    <div class="constrainedContent">
         <h1 class="title mt-4">
             New Blog Post
         </h1>

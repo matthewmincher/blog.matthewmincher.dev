@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "@yaireo/tagify": "^4.8.1",
-        "bulma": "^0.9.3"
+        "bulma": "^0.9.3",
+        "simplemde": "^1.11.2"
     }
 }
