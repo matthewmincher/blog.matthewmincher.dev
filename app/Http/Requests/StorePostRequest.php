@@ -20,7 +20,8 @@ class StorePostRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
-            'tags' => $this->formatTags($this->tags)
+            'tags' => $this->formatTags($this->tags),
+            'published' => ($this->published ?? 'off') === 'on'
         ]);
     }
 
@@ -51,7 +52,8 @@ class StorePostRequest extends FormRequest
             'content' => 'required|min:10',
             'blog_category_id' => 'required|exists:App\Models\BlogCategory,id',
             'tags' => 'nullable|array',
-            'tags.*' => 'required|min:3|max:30'
+            'tags.*' => 'required|min:3|max:30',
+            'published' => 'required|boolean'
         ];
     }
 }

@@ -30,7 +30,7 @@
         <div class="wrapper">
             <ul class="navbar-start">
                 <li><a href="{{route('posts.index')}}" class="{{(request()->routeIs('posts.*')) ? 'active' : ''}}">Posts</a></li>
-                <li><a href="#" class="{{(request()->routeIs('categories.*')) ? 'active' : ''}}">Categories</a></li>
+                <li><a href="{{route('categories.index')}}" class="{{(request()->routeIs('categories.*')) ? 'active' : ''}}">Categories</a></li>
                 <li><a href="#" class="{{(request()->routeIs('tags.*')) ? 'active' : ''}}">Tags</a></li>
             </ul>
         </div>

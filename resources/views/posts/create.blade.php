@@ -21,7 +21,7 @@
         <form method="post" action="{{ route('posts.store') }}">
             @csrf
 
-            @include('posts._form')
+            @include('posts.partials.form')
         </form>
     </div>
 @endsection

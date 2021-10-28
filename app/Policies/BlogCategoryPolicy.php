@@ -16,7 +16,7 @@ class BlogCategoryPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(?User $user)
     {
         return true;
     }
@@ -28,7 +28,7 @@ class BlogCategoryPolicy
      * @param  \App\Models\BlogCategory  $blogCategory
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, BlogCategory $blogCategory)
+    public function view(?User $user, BlogCategory $blogCategory)
     {
         return true;
     }
@@ -41,7 +41,7 @@ class BlogCategoryPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->is_author;
     }
 
     /**
@@ -53,7 +53,7 @@ class BlogCategoryPolicy
      */
     public function update(User $user, BlogCategory $blogCategory)
     {
-        //
+        return $user->is_author;
     }
 
     /**
@@ -77,7 +77,7 @@ class BlogCategoryPolicy
      */
     public function restore(User $user, BlogCategory $blogCategory)
     {
-        //
+        return $user->is_author;
     }
 
     /**

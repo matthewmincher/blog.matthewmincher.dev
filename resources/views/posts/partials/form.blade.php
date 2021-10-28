@@ -46,7 +46,19 @@
     @enderror
 </div>
 
+<label class="label">Options</label>
 
+<div class="field">
+    <label class="checkbox">
+        <input type="checkbox" name="published" id="published" {{old('published', $post->published ?? false) ? 'checked' : ''}}>
+        Published
+    </label>
+    @error('published')
+    <p class="help is-danger">{{ $message }}</p>
+    @enderror
+</div>
+
+<hr />
 
 <div class="buttons">
     <button class="button is-primary" type="submit">Save Post</button>

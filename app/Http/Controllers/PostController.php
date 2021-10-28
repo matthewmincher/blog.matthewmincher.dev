@@ -10,28 +10,29 @@ use App\Models\BlogTag;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
 
 class PostController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(BlogPost::class,null, [
-            'except' => ['index']
-        ]);
+        $this->authorizeResource(BlogPost::class);
     }
 
     private static function synchroniseTags($tagList, BlogPost $blogPost){
         $existingTags = BlogTag::all();
         $selectedTags = new Collection();
 
-        foreach($tagList as $tagTitle){
-            $tag = $existingTags->firstWhere('title', $tagTitle);
+        if(is_array($tagList)){
+            foreach($tagList as $tagTitle){
+                $tag = $existingTags->firstWhere('title', $tagTitle);
 
-            if($tag === null){
-                $tag = BlogTag::create(['title' => $tagTitle, 'slug' => Str::slug($tagTitle)]);
+                if($tag === null){
+                    $tag = BlogTag::create(['title' => $tagTitle, 'slug' => Str::slug($tagTitle)]);
+                }
+
+                $selectedTags->add($tag);
             }
-
-            $selectedTags->add($tag);
         }
 
         $blogPost->tags()->sync($selectedTags);
@@ -40,11 +41,16 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        if(optional($request->user())->is_author){
+            $posts = BlogPost::query();
+        } else {
+            $posts = BlogPost::published();
+        }
 
         return view('posts.index', [
-            'posts' => BlogPost::with(['category', 'tags', 'user'])->paginate(5)
+            'posts' => $posts->with(['category', 'tags', 'user'])->paginate(5)
         ]);
     }
 
@@ -74,7 +80,6 @@ class PostController extends Controller
         $validated = $request->validated();
 
         $validated['slug'] = Str::slug($validated['title']);
-        $validated['published'] = false;
 
         $post = $request->user()->posts()->create($validated);
 
@@ -89,10 +94,13 @@ class PostController extends Controller
      * Display the specified resource.
      *
      * @param  BlogPost  $blogPost
-     * @return \Illuminate\Http\Response
      */
-    public function show(BlogPost $blogPost)
+    public function show(Request $request, BlogPost $blogPost)
     {
+        $combinedSlug = $request->route()->originalParameter('blog_post');
+        if($combinedSlug !== $blogPost->combined_slug){
+            return redirect()->route('posts.show', ['blog_post' => $blogPost])->setStatusCode(Response::HTTP_MOVED_PERMANENTLY);
+        }
 
         return view('posts.show', [
             'post' => $blogPost
@@ -135,7 +143,6 @@ class PostController extends Controller
     public function update(StorePostRequest $request, BlogPost $blogPost)
     {
         $validated = $request->validated();
-
         $blogPost->fill($validated)->save();
         self::synchroniseTags($validated['tags'], $blogPost);
 
@@ -146,10 +153,11 @@ class PostController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  BlogPost  $blogPost
-     * @return \Illuminate\Http\Response
      */
     public function destroy(BlogPost $blogPost)
     {
-        //
+        $blogPost->delete();
+
+        return redirect()->route('posts.index');
     }
 }

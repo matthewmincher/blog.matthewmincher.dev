@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CategoryController;
 use App\Models\BlogPost;
 
 /*
@@ -17,10 +18,14 @@ use App\Models\BlogPost;
 |
 */
 
-Route::model('blog_post', BlogPost::class);
-Route::resource('posts', PostController::class)->parameters([
+
+Route::resource('categories', CategoryController::class)->parameters([
+    'categories' => 'blog_category'
+]);
+Route::resource('posts', PostController::class)->except('show')->parameters([
     'posts' => 'blog_post'
 ]);
+Route::get('posts/{blog_post:combined_slug}', [PostController::class, 'show'])->name('posts.show');
 
 Route::get('/', function () {
     return view('welcome');

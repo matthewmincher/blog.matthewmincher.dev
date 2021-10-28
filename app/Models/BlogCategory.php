@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 /**
  * App\Models\BlogCategory
@@ -33,7 +34,20 @@ class BlogCategory extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = ['title', 'content'];
+
+    public function setTitleAttribute($value){
+        $this->attributes['title'] = $value;
+
+        $this->setAttribute('slug', Str::slug($value));
+    }
+
     public function posts(){
         return $this->hasMany(BlogPost::class);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

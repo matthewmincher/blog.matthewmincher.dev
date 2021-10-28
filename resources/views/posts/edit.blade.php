@@ -22,7 +22,7 @@
             @csrf
             @method('PUT')
 
-            @include('posts._form')
+            @include('posts.partials.form')
         </form>
     </div>
 @endsection
