@@ -1,32 +1,25 @@
 @extends('layouts.main')
 
-@section('title', 'Blog → ' . $category->title)
+@section('title', 'Blog → ' . $tag->title)
 
 @section('content')
     <div class="constrainedContent pt-4 is-relative">
-
-        @error('generic')
-        <div class="notification is-danger">
-            {{$message}}
-        </div>
-        @enderror
-
         <div class="columns">
             <div class="column is-four-fifths">
-                <h1 class="title">{{$category->title}}</h1>
+                <h1 class="title">{{$tag->title}}</h1>
                 <h3 class="subtitle is-6">{{$posts->total()}} @choice('post|posts', $posts->total())</h3>
-                <p>{{$category->content}}</p>
+                <p>{{$tag->content}}</p>
             </div>
             <div class="column has-text-right">
-                @can('update', $category)
-                    <a href="{{route('categories.edit', ['blog_category' => $category])}}" class="button is-small is-light">
+                @can('update', $tag)
+                    <a href="{{route('tags.edit', ['blog_tag' => $tag])}}" class="button is-small is-light">
                     <span class="icon is-small">
                       <i class="fas fa-pencil-alt"></i>
                     </span>
                     </a>
                 @endcan
-                @can('delete', $category)
-                    <form class="is-inline-block" method="POST" action="{{route('categories.destroy', ['blog_category' => $category])}}">
+                @can('delete', $tag)
+                    <form class="is-inline-block" method="POST" action="{{route('tags.destroy', ['blog_tag' => $tag])}}">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="button is-small is-light">

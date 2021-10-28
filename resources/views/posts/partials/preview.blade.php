@@ -24,7 +24,7 @@
     </div>
 
     <div class="content">
-        {!! Markdown::parse($post->content) !!}
+        {!! Markdown::parse(\Illuminate\Support\Str::before($post->content, '----')) !!}
     </div>
 
     @include('posts.partials.post_footer')

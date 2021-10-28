@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\BlogCategory;
+use App\Models\BlogPost;
 use App\Models\BlogTag;
 use Illuminate\Database\Seeder;
 
@@ -18,8 +19,13 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         User::factory()->me()->create();
-        BlogTag::factory(10)->create();
+        BlogTag::factory(25)->create();
         BlogCategory::factory(2)->create();
+        BlogPost::factory(50)->create();
+
+        BlogPost::all()->each(function(BlogPost $post){
+           $post->tags()->sync(BlogTag::inRandomOrder()->limit(5)->get());
+        });
         // \App\Models\User::factory(10)->create();
     }
 }

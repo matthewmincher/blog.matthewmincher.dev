@@ -16,9 +16,9 @@ class BlogTagPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAny(?User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -28,9 +28,9 @@ class BlogTagPolicy
      * @param  \App\Models\BlogTag  $blogTag
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, BlogTag $blogTag)
+    public function view(?User $user, BlogTag $blogTag)
     {
-        //
+        return true;
     }
 
     /**
@@ -41,7 +41,7 @@ class BlogTagPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->is_author;
     }
 
     /**
@@ -53,7 +53,7 @@ class BlogTagPolicy
      */
     public function update(User $user, BlogTag $blogTag)
     {
-        //
+        return $user->is_author;
     }
 
     /**
@@ -65,7 +65,7 @@ class BlogTagPolicy
      */
     public function delete(User $user, BlogTag $blogTag)
     {
-        //
+        return $user->is_author;
     }
 
     /**
@@ -77,7 +77,7 @@ class BlogTagPolicy
      */
     public function restore(User $user, BlogTag $blogTag)
     {
-        //
+        return $user->is_author;
     }
 
     /**
@@ -89,6 +89,6 @@ class BlogTagPolicy
      */
     public function forceDelete(User $user, BlogTag $blogTag)
     {
-        //
+        return $user->is_author;
     }
 }

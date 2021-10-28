@@ -20,7 +20,7 @@ class CategoryController extends Controller
     public function index()
     {
         return view('categories.index', [
-            'categories' => BlogCategory::orderBy('title')->withCount(['posts'])->get()
+            'categories' => BlogCategory::orderBy('title')->withCount(['publishedPosts'])->get()
         ]);
     }
 
@@ -55,7 +55,7 @@ class CategoryController extends Controller
     {
         return view('categories.show', [
             'category' => $blogCategory,
-            'posts' => $blogCategory->posts()->paginate(5)
+            'posts' => $blogCategory->publishedPosts()->paginate(5)
         ]);
     }
 

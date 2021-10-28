@@ -25,7 +25,6 @@ class BlogTagFactory extends Factory
 
         return [
             'title' => ucfirst($name),
-            'slug' => str_replace(' ', '-', strtolower($name)),
             'content' => $this->faker->sentence(10)
         ];
     }

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 /**
  * App\Models\BlogTag
@@ -34,7 +36,21 @@ class BlogTag extends Model
 
     protected $fillable = ['title', 'slug', 'content'];
 
+    public function setTitleAttribute($value){
+        $this->attributes['title'] = $value;
+
+        $this->setAttribute('slug', Str::slug($value));
+    }
+
     public function posts(){
         return $this->belongsToMany(BlogPost::class, 'blog_post_tags');
+    }
+    public function publishedPosts(){
+        return $this->belongsToMany(BlogPost::class, 'blog_post_tags')->published();
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug';
     }
 }

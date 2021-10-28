@@ -2,7 +2,7 @@
     <div class="columns">
         <div class="column is-four-fifths">
             <h2 class="title is-5"><a href="{{route('categories.show', ['blog_category' => $category])}}">{{$category->title}}</a></h2>
-            <h3 class="subtitle is-7">{{$category->posts_count}} @choice('post|posts', $category->posts_count)</h3>
+            <h3 class="subtitle is-7">{{$category->published_posts_count}} @choice('post|posts', $category->published_posts_count)</h3>
         </div>
         <div class="column has-text-right">
             @can('update', $category)

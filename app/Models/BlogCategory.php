@@ -45,6 +45,10 @@ class BlogCategory extends Model
     public function posts(){
         return $this->hasMany(BlogPost::class);
     }
+    public function publishedPosts(){
+        return $this->hasMany(BlogPost::class)->published();
+    }
+
 
     public function getRouteKeyName()
     {

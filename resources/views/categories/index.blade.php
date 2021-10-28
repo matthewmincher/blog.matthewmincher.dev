@@ -6,7 +6,7 @@
     <div class="constrainedContent pt-4 is-relative">
         <div class="columns">
             <div class="column is-four-fifths">
-                <h1 class="title">Category List (A-Z)</h1>
+                <h1 class="title">All Categories (A-Z)</h1>
             </div>
             <div class="column has-text-right">
                 @can('create', \App\Models\BlogCategory::class)

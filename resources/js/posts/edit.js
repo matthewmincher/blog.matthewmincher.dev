@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', evt => {
     });
 
     const simpleMDE = new SimpleMDE({
-        toolbar: ['bold', 'italic', 'strikethrough', '|', 'quote', 'unordered-list', 'ordered-list', '|', 'link', 'image', '|', 'side-by-side', 'fullscreen', '|', 'guide']
+        toolbar: ['bold', 'italic', 'strikethrough', '|', 'quote', 'unordered-list', 'ordered-list', '|', 'link', 'image', 'horizontal-rule', '|', 'side-by-side', 'fullscreen', '|', 'guide']
     });
 })
 

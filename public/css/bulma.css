@@ -402,7 +402,7 @@ fieldset {
 
 pre {
   -webkit-overflow-scrolling: touch;
-  background-color: whitesmoke;
+  background-color: #f0f0f0;
   color: #073B3A;
   font-size: 0.875em;
   overflow-x: auto;

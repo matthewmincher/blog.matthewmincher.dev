@@ -18734,7 +18734,7 @@ document.addEventListener('DOMContentLoaded', function (evt) {
     }
   });
   var simpleMDE = new (simplemde__WEBPACK_IMPORTED_MODULE_1___default())({
-    toolbar: ['bold', 'italic', 'strikethrough', '|', 'quote', 'unordered-list', 'ordered-list', '|', 'link', 'image', '|', 'side-by-side', 'fullscreen', '|', 'guide']
+    toolbar: ['bold', 'italic', 'strikethrough', '|', 'quote', 'unordered-list', 'ordered-list', '|', 'link', 'image', 'horizontal-rule', '|', 'side-by-side', 'fullscreen', '|', 'guide']
   });
 });
 })();

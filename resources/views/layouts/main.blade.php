@@ -31,7 +31,7 @@
             <ul class="navbar-start">
                 <li><a href="{{route('posts.index')}}" class="{{(request()->routeIs('posts.*')) ? 'active' : ''}}">Posts</a></li>
                 <li><a href="{{route('categories.index')}}" class="{{(request()->routeIs('categories.*')) ? 'active' : ''}}">Categories</a></li>
-                <li><a href="#" class="{{(request()->routeIs('tags.*')) ? 'active' : ''}}">Tags</a></li>
+                <li><a href="{{route('tags.index')}}" class="{{(request()->routeIs('tags.*')) ? 'active' : ''}}">Tags</a></li>
             </ul>
         </div>
     </nav>
@@ -61,5 +61,6 @@
     </footer>
 </body>
 
+<script type="text/javascript" src="{{mix('js/posts/shared.js')}}"></script>
 @stack('js')
 </html>

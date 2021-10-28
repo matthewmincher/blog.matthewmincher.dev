@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,9 @@ use App\Models\BlogPost;
 
 Route::resource('categories', CategoryController::class)->parameters([
     'categories' => 'blog_category'
+]);
+Route::resource('tags', TagController::class)->parameters([
+    'tags' => 'blog_tag'
 ]);
 Route::resource('posts', PostController::class)->except('show')->parameters([
     'posts' => 'blog_post'
