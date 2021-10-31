@@ -1,4 +1,4 @@
-<div class="box">
+<div class="box" @if(!$post->published)style="background-color: #ffcece;"@endif>
     <div class="columns">
         <div class="column is-four-fifths">
             <h2 class="title is-5"><a href="{{route('posts.show', ['blog_post' => $post])}}">{{$post->title}}</a></h2>

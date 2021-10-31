@@ -25,7 +25,7 @@
                 <div class="control">
                     <div class="tags has-addons are-large">
                         <a class="tag" href="{{route('tags.show', ['blog_tag' => $tag])}}">{{$tag->title}}</a>
-                        <span class="tag is-dark">{{$tag->published_posts_count}}</span>
+                        <span class="tag is-dark">{{$tag->posts_count}}</span>
                     </div>
                 </div>
                 @endforeach

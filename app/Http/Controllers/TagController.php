@@ -22,7 +22,9 @@ class TagController extends Controller
     public function index()
     {
         return view('tags.index', [
-            'tags' => BlogTag::withCount(['publishedPosts'])->orderBy('published_posts_count', 'desc')->get()
+            'tags' => BlogTag::withCount(['posts' => function(Builder $query){
+                $query->published();
+            }])->orderBy('posts_count', 'desc')->get()
         ]);
     }
 
@@ -42,10 +44,6 @@ class TagController extends Controller
     {
         $validated = $request->validated();
 
-        if(BlogTag::whereSlug(Str::slug($validated['title']))->exists()){
-            return redirect()->back()->withInput()->withErrors(['title' => 'The title has already been taken.']);
-        }
-
         $tag = BlogTag::create($validated);
 
         return redirect()->route('tags.show', ['blog_tag' => $tag]);
@@ -60,7 +58,7 @@ class TagController extends Controller
     {
         return view('tags.show', [
             'tag' => $blogTag,
-            'posts' => $blogTag->publishedPosts()->with(['tags', 'category', 'user'])->paginate(5)
+            'posts' => $blogTag->posts()->published()->ordered()->with(['tags', 'category', 'user'])->paginate(5)
         ]);
     }
 
@@ -82,10 +80,6 @@ class TagController extends Controller
     public function update(StoreTagRequest $request, BlogTag $blogTag)
     {
         $validated = $request->validated();
-
-        if(BlogTag::whereSlug(Str::slug($validated['title']))->exists()){
-            return redirect()->back()->withInput()->withErrors(['title' => 'The title has already been taken.']);
-        }
 
         $blogTag->fill($validated)->save();
 

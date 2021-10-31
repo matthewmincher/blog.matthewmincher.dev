@@ -3,82 +3,64 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreTagRequest;
+use App\Http\Resources\V1\BlogTagResource;
 use App\Models\BlogTag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
 
 class TagController extends Controller
 {
 
     public function __construct()
     {
-        $this->authorizeResource(BlogTag::class,null, [
-            'except' => ['index']
-        ]);
+        $this->authorizeResource(BlogTag::class);
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        return BlogTagResource::collection(BlogTag::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTagRequest $request)
     {
-        //
+        $validated = $request->validated();
+
+        $tag = BlogTag::create($validated);
+        return new BlogTagResource($tag);
     }
 
     /**
      * Display the specified resource.
      *
      * @param  \App\Models\BlogTag  $blogTag
-     * @return \Illuminate\Http\Response
      */
     public function show(BlogTag $blogTag)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\BlogTag  $blogTag
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(BlogTag $blogTag)
-    {
-        //
+        return new BlogTagResource($blogTag);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\BlogTag  $blogTag
-     * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, BlogTag $blogTag)
+    public function update(StoreTagRequest $request, BlogTag $blogTag)
     {
-        //
+        $validated = $request->validated();
+
+        $blogTag->fill($validated)->save();
+        return new BlogTagResource($blogTag);
     }
 
     /**
@@ -89,6 +71,9 @@ class TagController extends Controller
      */
     public function destroy(BlogTag $blogTag)
     {
-        //
+        $blogTag->posts()->detach();
+        $blogTag->delete();
+
+        return response('', Response::HTTP_NO_CONTENT);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCategoryRequest;
 use App\Models\BlogCategory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
 class CategoryController extends Controller
@@ -20,7 +21,9 @@ class CategoryController extends Controller
     public function index()
     {
         return view('categories.index', [
-            'categories' => BlogCategory::orderBy('title')->withCount(['publishedPosts'])->get()
+            'categories' => BlogCategory::orderBy('title')->withCount(['posts' => function(Builder $query){
+                $query->published();
+            }])->get()
         ]);
     }
 
@@ -55,7 +58,7 @@ class CategoryController extends Controller
     {
         return view('categories.show', [
             'category' => $blogCategory,
-            'posts' => $blogCategory->publishedPosts()->paginate(5)
+            'posts' => $blogCategory->posts()->published()->ordered()->paginate(5)
         ]);
     }
 

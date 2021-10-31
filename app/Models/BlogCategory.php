@@ -45,13 +45,19 @@ class BlogCategory extends Model
     public function posts(){
         return $this->hasMany(BlogPost::class);
     }
-    public function publishedPosts(){
-        return $this->hasMany(BlogPost::class)->published();
+
+
+    public function getCombinedSlugAttribute(){
+        return $this->id . '-' . $this->slug;
     }
 
-
-    public function getRouteKeyName()
+    public function resolveRouteBinding($value, $field = null)
     {
-        return 'slug';
+        if($field === 'combined_slug'){
+            $id = (int) Str::before($value, '-');
+            return $this->where($this->getRouteKeyName(), $id)->first();
+        }
+
+        return parent::resolveRouteBinding($value, $field);
     }
 }

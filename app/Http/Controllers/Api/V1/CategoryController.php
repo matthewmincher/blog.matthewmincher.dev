@@ -3,18 +3,17 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Resources\V1\BlogCategoryResource;
 use App\Models\BlogCategory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(BlogCategory::class, null, [
-            'except' => ['index', 'show']
-        ]);
+        $this->authorizeResource(BlogCategory::class);
     }
 
     /**
@@ -23,26 +22,20 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
+
         return BlogCategoryResource::collection(BlogCategory::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      */
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request)
     {
-        //
+        $validated = $request->validated();
+        $category = BlogCategory::create($validated);
+        return new BlogCategoryResource($category);
     }
 
     /**
@@ -56,24 +49,15 @@ class CategoryController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\BlogCategory  $blogCategory
-     */
-    public function edit(BlogCategory $blogCategory)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\BlogCategory  $blogCategory
      */
-    public function update(Request $request, BlogCategory $blogCategory)
+    public function update(StoreCategoryRequest $request, BlogCategory $blogCategory)
     {
-        //
+        $validated = $request->validated();
+        $blogCategory->fill($validated)->save();
+
+        return new BlogCategoryResource($blogCategory);
     }
 
     /**

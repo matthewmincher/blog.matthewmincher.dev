@@ -45,12 +45,18 @@ class BlogTag extends Model
     public function posts(){
         return $this->belongsToMany(BlogPost::class, 'blog_post_tags');
     }
-    public function publishedPosts(){
-        return $this->belongsToMany(BlogPost::class, 'blog_post_tags')->published();
+
+    public function getCombinedSlugAttribute(){
+        return $this->id . '-' . $this->slug;
     }
 
-    public function getRouteKeyName()
+    public function resolveRouteBinding($value, $field = null)
     {
-        return 'slug';
+        if($field === 'combined_slug'){
+            $id = (int) Str::before($value, '-');
+            return $this->where($this->getRouteKeyName(), $id)->first();
+        }
+
+        return parent::resolveRouteBinding($value, $field);
     }
 }

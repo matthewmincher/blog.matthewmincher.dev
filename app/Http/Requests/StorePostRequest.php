@@ -53,7 +53,8 @@ class StorePostRequest extends FormRequest
             'blog_category_id' => 'required|exists:App\Models\BlogCategory,id',
             'tags' => 'nullable|array',
             'tags.*' => 'required|min:3|max:30',
-            'published' => 'required|boolean'
+            'published' => 'required|boolean',
+            'slug' => 'nullable|alpha_dash|min:3|max:30'
         ];
     }
 }

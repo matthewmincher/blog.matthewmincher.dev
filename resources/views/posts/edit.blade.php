@@ -10,7 +10,7 @@
     <script type="module" src="{{ mix('js/posts/edit.js') }}"></script>
 @endpush
 
-@section('title', 'New Post')
+@section('title', 'Edit Post')
 
 @section('content')
     <div class="constrainedContent">

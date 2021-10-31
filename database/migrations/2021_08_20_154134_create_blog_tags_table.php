@@ -17,7 +17,7 @@ class CreateBlogTagsTable extends Migration
             $table->id();
 
             $table->string('title');
-            $table->string('slug')->unique();
+            $table->string('slug');
             $table->text('content');
 
             $table->timestamps();

@@ -24,5 +24,8 @@ Route::prefix('v1')->name('api.v1.')->middleware(['forcejson'])->group(function 
     Route::apiResource('categories', \App\Http\Controllers\Api\V1\CategoryController::class)->parameters([
         'categories' => 'blog_category'
     ]);
+    Route::apiResource('posts', \App\Http\Controllers\Api\V1\PostController::class)->parameters([
+        'posts' => 'blog_post'
+    ]);
     Route::apiResource('tags', \App\Http\Controllers\Api\V1\TagController::class);
 });

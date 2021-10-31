@@ -1,12 +1,26 @@
-<div class="field">
-    <label class="label">Title</label>
-    <div class="control">
-        <input id="title" name="title" class="input{{($errors->has('title')) ? ' is-danger' : ''}}" type="text" value="{{old('title', $post->title ?? '')}}">
+<div class="columns">
+    <div class="column">
+        <div class="field">
+            <label class="label">Title</label>
+            <div class="control">
+                <input id="title" name="title" class="input{{($errors->has('title')) ? ' is-danger' : ''}}" type="text" value="{{old('title', $post->title ?? '')}}">
+            </div>
+            @error('title')
+            <p class="help is-danger">{{ $message }}</p>
+            @enderror
+        </div>
     </div>
-    @error('title')
-    <p class="help is-danger">{{ $message }}</p>
-    @enderror
+    <div class="column">
+        <div class="field">
+            <label class="label">Slug</label>
+            <div class="control">
+                <input id="slug" name="slug" class="input{{$errors->has('slug') ? 'is-danger' : ''}}" type="text" value="{{old('slug', $post->slug ?? '')}}" placeholder="Leave blank to use title" />
+            </div>
+        </div>
+    </div>
 </div>
+
+
 
 <div class="field">
     <label class="label">Category</label>

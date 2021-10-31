@@ -20,12 +20,16 @@ use App\Models\BlogPost;
 */
 
 
-Route::resource('categories', CategoryController::class)->parameters([
+Route::resource('categories', CategoryController::class)->except('show')->parameters([
     'categories' => 'blog_category'
 ]);
-Route::resource('tags', TagController::class)->parameters([
+Route::get('categories/{blog_category:combined_slug}', [CategoryController::class, 'show'])->name('categories.show');
+
+Route::resource('tags', TagController::class)->except('show')->parameters([
     'tags' => 'blog_tag'
 ]);
+Route::get('tags/{blog_tag:combined_slug}', [TagController::class, 'show'])->name('tags.show');
+
 Route::resource('posts', PostController::class)->except('show')->parameters([
     'posts' => 'blog_post'
 ]);

@@ -7,6 +7,7 @@ use App\Http\Resources\V1\BlogCategoryResource;
 use App\Models\BlogCategory;
 use App\Models\BlogPost;
 use App\Models\BlogTag;
+use App\Services\BlogPostService;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -19,24 +20,7 @@ class PostController extends Controller
         $this->authorizeResource(BlogPost::class);
     }
 
-    private static function synchroniseTags($tagList, BlogPost $blogPost){
-        $existingTags = BlogTag::all();
-        $selectedTags = new Collection();
 
-        if(is_array($tagList)){
-            foreach($tagList as $tagTitle){
-                $tag = $existingTags->firstWhere('title', $tagTitle);
-
-                if($tag === null){
-                    $tag = BlogTag::create(['title' => $tagTitle, 'slug' => Str::slug($tagTitle)]);
-                }
-
-                $selectedTags->add($tag);
-            }
-        }
-
-        $blogPost->tags()->sync($selectedTags);
-    }
 
     /**
      * Display a listing of the resource.
@@ -44,9 +28,9 @@ class PostController extends Controller
     public function index(Request $request)
     {
         if(optional($request->user())->is_author){
-            $posts = BlogPost::query();
+            $posts = BlogPost::ordered();
         } else {
-            $posts = BlogPost::published();
+            $posts = BlogPost::published()->ordered();
         }
 
         return view('posts.index', [
@@ -75,15 +59,11 @@ class PostController extends Controller
      *
      * @param  StorePostRequest  $request
      */
-    public function store(StorePostRequest $request)
+    public function store(StorePostRequest $request, BlogPostService $postService)
     {
         $validated = $request->validated();
 
-        $validated['slug'] = Str::slug($validated['title']);
-
-        $post = $request->user()->posts()->create($validated);
-
-        self::synchroniseTags($validated['tags'], $post);
+        $post = $postService->createPostForUser($validated, $request->user());
 
         return redirect()->route('posts.show', ['blog_post' => $post]);
     }
@@ -140,23 +120,21 @@ class PostController extends Controller
      * @param  StorePostRequest $request
      * @param  BlogPost  $blogPost
      */
-    public function update(StorePostRequest $request, BlogPost $blogPost)
+    public function update(StorePostRequest $request, BlogPost $blogPost, BlogPostService $postService)
     {
         $validated = $request->validated();
-        $blogPost->fill($validated)->save();
-        self::synchroniseTags($validated['tags'], $blogPost);
+
+        $postService->updatePost($validated, $blogPost);
 
         return redirect()->route('posts.show', ['blog_post' => $blogPost]);
     }
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  BlogPost  $blogPost
      */
-    public function destroy(BlogPost $blogPost)
+    public function destroy(BlogPost $blogPost, BlogPostService $postService)
     {
-        $blogPost->delete();
+        $postService->deletePost($blogPost);
 
         return redirect()->route('posts.index');
     }
