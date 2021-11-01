@@ -8,6 +8,8 @@ use App\Http\Resources\V1\BlogCategoryResource;
 use App\Models\BlogCategory;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends Controller
 {
@@ -67,10 +69,11 @@ class CategoryController extends Controller
      */
     public function destroy(BlogCategory $blogCategory)
     {
-        if($blogCategory->posts_count > 0){
-            return response()->setStatusCode(409)->json([
-                'message' => 'That category has '.$blogCategory->posts_count.' posts. Move them elsewhere before deleting it.'
-            ]);
+        $postCount = $blogCategory->posts()->count();
+        if($postCount !== 0){
+            return response()->json([
+                'errors' => ['generic' => 'This category has '.$postCount.' '.Str::plural('post', $postCount).'. Move '.trans_choice('it|them', $postCount).' elsewhere before deleting it.']
+            ], Response::HTTP_CONFLICT);
         }
 
         $blogCategory->delete();

@@ -12,6 +12,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(BlogPost::class);
+    }
+
     private static function getPostExpandables(Request $request){
         $expandable = ['category', 'tags', 'user'];
         return array_intersect(explode(',', $request->query('expand', '')), $expandable);
@@ -39,6 +44,7 @@ class PostController extends Controller
     public function store(StorePostRequest $request, BlogPostService $postService)
     {
         $validated = $request->validated();
+
         $post = $postService->createPostForUser($validated, $request->user());
 
         $expand = self::getPostExpandables($request);

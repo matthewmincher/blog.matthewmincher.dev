@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\BlogCategory;
 use App\Models\BlogPost;
 use Illuminate\Console\Command;
 
@@ -38,7 +39,13 @@ class FixOrphanedPosts extends Command
      */
     public function handle()
     {
-        BlogPost::
+        $postsMissingCategories = BlogPost::whereDoesntHave('category')->get();
+        $oldestCategory = BlogCategory::oldest()->take(1)->get()->first();
+
+        foreach($postsMissingCategories as $post){
+            $post->category()->associate($oldestCategory);
+            $post->save();
+        }
 
         return Command::SUCCESS;
     }

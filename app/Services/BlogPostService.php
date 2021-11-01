@@ -8,8 +8,9 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Str;
 
 class BlogPostService {
-    public function createPostForUser($validated, User $user): BlogPost {
-        if($validated['slug'] === null){
+    public function createPostForUser($validated, User $user): BlogPost
+    {
+        if(!$validated['slug']){
             $validated['slug'] = Str::slug($validated['title']);
         }
 
@@ -19,16 +20,19 @@ class BlogPostService {
 
         return $post;
     }
-    public function updatePost($validated, BlogPost $blogPost): void {
+    public function updatePost($validated, BlogPost $blogPost): void
+    {
         $blogPost->fill($validated)->save();
         self::synchroniseTags($validated['tags'], $blogPost);
     }
-    public function deletePost(BlogPost $blogPost): void {
+    public function deletePost(BlogPost $blogPost): void
+    {
         $blogPost->tags()->detach();
         $blogPost->delete();
     }
 
-    private static function synchroniseTags($tagList, BlogPost $blogPost){
+    private static function synchroniseTags($tagList, BlogPost $blogPost): void
+    {
         $existingTags = BlogTag::all();
         $selectedTags = new Collection();
 
@@ -45,5 +49,6 @@ class BlogPostService {
         }
 
         $blogPost->tags()->sync($selectedTags);
+        $blogPost->unsetRelation('tags');
     }
 }
