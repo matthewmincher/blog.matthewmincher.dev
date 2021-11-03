@@ -1,5 +1,7 @@
 <?php
 
+use Auth0\Login\Auth0Controller;
+use App\Http\Controllers\Auth\Auth0IndexController;
 use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +21,10 @@ use App\Models\BlogPost;
 |
 */
 
+Route::get('/auth0/callback', [Auth0Controller::class, 'callback'])->name('auth0-callback');
+Route::get('/login', [Auth0IndexController::class, 'login'])->name('login');
+Route::get('/logout', [Auth0IndexController::class, 'logout'])->name('logout');
+
 
 Route::resource('categories', CategoryController::class)->except('show')->parameters([
     'categories' => 'blog_category'
@@ -36,16 +42,10 @@ Route::resource('posts', PostController::class)->except('show')->parameters([
 Route::get('posts/{blog_post:combined_slug}', [PostController::class, 'show'])->name('posts.show');
 
 Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/test', function () {
-
+    return redirect()->route('posts.index');
 });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
-
-require __DIR__.'/auth.php';
 

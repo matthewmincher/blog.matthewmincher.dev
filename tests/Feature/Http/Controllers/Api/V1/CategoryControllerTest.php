@@ -94,7 +94,7 @@ class CategoryControllerTest extends TestCase
      * @dataProvider requiredFormValidationProvider
      */
     public function it_should_fail_validation_when_creating_a_category($formInput, $formInputValue){
-        $author = User::factory()->me()->create()->first();
+        $author = $this->author();
         $response = $this->actingAs($author)->post(route('api.v1.categories.store'), [
             $formInput => $formInputValue
         ]);
@@ -107,7 +107,7 @@ class CategoryControllerTest extends TestCase
      * @dataProvider requiredFormValidationProvider
      */
     public function it_should_fail_validation_when_updating_a_category($formInput, $formInputValue){
-        $author = User::factory()->me()->create()->first();
+        $author = $this->author();
         $category = BlogCategory::factory(1)->create()->first();
 
         $response = $this->actingAs($author)->put(route('api.v1.categories.update', ['blog_category' => $category]), [
@@ -130,7 +130,7 @@ class CategoryControllerTest extends TestCase
      * @test
      */
     public function it_should_create_a_category(){
-        $author = User::factory()->me()->create()->first();
+        $author = $this->author();
 
         $postArgs = [
             'title' => $this->faker->words(3, true),
@@ -147,7 +147,7 @@ class CategoryControllerTest extends TestCase
     public function it_should_edit_a_category(){
         $initialArgs = ['title' => 'Title', 'content' => 'Content'];
 
-        $author = User::factory()->me()->create()->first();
+        $author = $this->author();
         $category = BlogCategory::factory(1)->create($initialArgs)->first();
 
         $this->assertDatabaseHas('blog_categories', ['title' => $initialArgs['title'], 'content' => $initialArgs['content']]);
@@ -164,7 +164,7 @@ class CategoryControllerTest extends TestCase
      * @test
      */
     public function it_should_delete_an_empty_category(){
-        $author = User::factory()->me()->create()->first();
+        $author = $this->author();
         $category = BlogCategory::factory(1)->create()->first();
 
         $this->assertDatabaseHas('blog_categories', ['id' => $category->id]);
@@ -177,7 +177,7 @@ class CategoryControllerTest extends TestCase
      * @test
      */
     public function it_should_not_delete_a_category_containing_posts(){
-        $author = User::factory()->me()->create()->first();
+        $author = $this->author();
         $category = BlogCategory::factory(1)->create()->first();
 
         BlogPost::factory()->create(['blog_category_id' => $category->id])->first();

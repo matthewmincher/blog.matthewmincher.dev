@@ -101,7 +101,7 @@ class TagControllerTest extends TestCase
      * @test
      */
     public function it_should_render_the_new_tag_form(){
-        $author = User::factory()->me()->create()->first();
+        $author = $this->author();
 
         $response = $this->actingAs($author)->get(route('tags.create'));
         $response->assertStatus(Response::HTTP_OK);
@@ -113,7 +113,7 @@ class TagControllerTest extends TestCase
      */
     public function it_should_render_the_edit_tag_form(){
         $tag = BlogTag::factory(1)->create()->first();
-        $author = User::factory()->me()->create()->first();
+        $author = $this->author();
 
         $response = $this->actingAs($author)->get(route('tags.edit', ['blog_tag' => $tag]));
 
@@ -127,7 +127,7 @@ class TagControllerTest extends TestCase
      * @dataProvider requiredFormValidationProvider
      */
     public function it_should_fail_validation_when_creating_a_tag($formInput, $formInputValue){
-        $author = User::factory()->me()->create()->first();
+        $author = $this->author();
         $response = $this->actingAs($author)->post(route('tags.store'), [
             $formInput => $formInputValue
         ]);
@@ -140,7 +140,7 @@ class TagControllerTest extends TestCase
      * @dataProvider requiredFormValidationProvider
      */
     public function it_should_fail_validation_when_updating_a_tag($formInput, $formInputValue){
-        $author = User::factory()->me()->create()->first();
+        $author = $this->author();
         $tag = BlogTag::factory(1)->create()->first();
 
         $response = $this->actingAs($author)->put(route('tags.update', ['blog_tag' => $tag]), [
@@ -163,7 +163,7 @@ class TagControllerTest extends TestCase
      * @test
      */
     public function it_should_create_a_tag(){
-        $author = User::factory()->me()->create()->first();
+        $author = $this->author();
 
         $postArgs = [
             'title' => $this->faker->words(3, true),
@@ -180,7 +180,7 @@ class TagControllerTest extends TestCase
     public function it_should_edit_a_tag(){
         $initialArgs = ['title' => 'Title', 'content' => 'Content'];
 
-        $author = User::factory()->me()->create()->first();
+        $author = $this->author();
         $tag = BlogTag::factory(1)->create($initialArgs)->first();
 
         $this->assertDatabaseHas('blog_tags', ['title' => $initialArgs['title'], 'content' => $initialArgs['content']]);
@@ -201,7 +201,7 @@ class TagControllerTest extends TestCase
      * @test
      */
     public function it_should_delete_a_tag(){
-        $author = User::factory()->me()->create()->first();
+        $author = $this->author();
         $tag = BlogTag::factory(1)->create()->first();
 
         $this->assertDatabaseHas('blog_tags', ['id' => $tag->id]);

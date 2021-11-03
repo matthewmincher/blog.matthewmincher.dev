@@ -32,7 +32,7 @@ class PostControllerTest extends TestCase
      */
     public function it_should_return_post_list()
     {
-        User::factory()->me()->create()->first();
+        $author = $this->author();
         BlogCategory::factory(1)->create()->first();
 
         $createCount = 5;
@@ -53,8 +53,24 @@ class PostControllerTest extends TestCase
     /**
      * @test
      */
+    public function it_should_expand_properties_in_the_post_list(){
+        foreach(['category', 'tags', 'user'] as $expandable){
+            $response = $this->get(route('api.v1.posts.index', ['expand' => $expandable]));
+            $response->assertJsonStructure([
+                'data' => [
+                    '*' => [
+                        $expandable
+                    ]
+                ]
+            ]);
+        }
+    }
+
+    /**
+     * @test
+     */
     public function it_should_return_a_post(){
-        User::factory()->me()->create()->first();
+        $author = $this->author();
         BlogCategory::factory(1)->create()->first();
 
         $post = BlogPost::factory()->create()->first();
@@ -75,6 +91,25 @@ class PostControllerTest extends TestCase
     /**
      * @test
      */
+    public function it_should_expand_properties_in_a_post(){
+        $author = $this->author();
+        BlogCategory::factory(1)->create()->first();
+
+        $post = BlogPost::factory()->create()->first();
+
+        foreach(['category', 'tags', 'user'] as $expandable){
+            $response = $this->get(route('api.v1.posts.show', ['blog_post' => $post, 'expand' => $expandable]));
+            $response->assertJsonStructure([
+                'data' => [
+                    $expandable
+                ]
+            ]);
+        }
+    }
+
+    /**
+     * @test
+     */
     public function it_should_require_authentication_to_create_a_post(){
         $this->post(route('api.v1.posts.store'))->assertStatus(Response::HTTP_FORBIDDEN);
     }
@@ -83,7 +118,7 @@ class PostControllerTest extends TestCase
      * @test
      */
     public function it_should_require_authentication_to_edit_a_post(){
-        User::factory()->me()->create()->first();
+        $author = $this->author();
         BlogCategory::factory(1)->create()->first();
 
         $post = BlogPost::factory()->create()->first();
@@ -95,7 +130,7 @@ class PostControllerTest extends TestCase
      * @test
      */
     public function it_should_require_authentication_to_delete_a_tag(){
-        User::factory()->me()->create()->first();
+        $author = $this->author();
         BlogCategory::factory(1)->create()->first();
 
         $post = BlogPost::factory()->create()->first();
@@ -108,7 +143,7 @@ class PostControllerTest extends TestCase
      * @dataProvider requiredFormValidationProvider
      */
     public function it_should_fail_validation_when_creating_a_post($formInput, $formInputValue){
-        $author = User::factory()->me()->create()->first();
+        $author = $this->author();
         $response = $this->actingAs($author)->post(route('api.v1.posts.store'), [
             $formInput => $formInputValue
         ]);
@@ -121,7 +156,7 @@ class PostControllerTest extends TestCase
      * @dataProvider requiredFormValidationProvider
      */
     public function it_should_fail_validation_when_updating_a_post($formInput, $formInputValue){
-        $author = User::factory()->me()->create()->first();
+        $author = $this->author();
         BlogCategory::factory(1)->create()->first();
         $post = BlogPost::factory()->create()->first();
 
@@ -134,12 +169,13 @@ class PostControllerTest extends TestCase
 
     public function requiredFormValidationProvider(){
         return [
-            ['title', ''],
-            ['title', 's'],
-            ['content', ''],
-            ['content', 'short'],
-            ['blog_category_id', ''],
-            ['blog_category_id', 0]
+            'Missing title' => ['title', ''],
+            'Title too short' => ['title', 's'],
+            'Title too long' => ['title', 'thisstringislongerthanthirtycharacters'],
+            'Missing content ' => ['content', ''],
+            'Content too short' => ['content', 'short'],
+            'Missing category' => ['blog_category_id', ''],
+            'Non-existent category' => ['blog_category_id', 0]
         ];
     }
 
@@ -147,7 +183,7 @@ class PostControllerTest extends TestCase
      * @test
      */
     public function it_should_create_a_post(){
-        $author = User::factory()->me()->create()->first();
+        $author = $this->author();
         $category = BlogCategory::factory()->create()->first();
 
         $postArgs = [
@@ -169,10 +205,9 @@ class PostControllerTest extends TestCase
     public function it_should_edit_a_post(){
         $initialArgs = ['title' => 'Title', 'content' => 'Content'];
 
-        $author = User::factory()->me()->create()->first();
+        $author = $this->author();
         $category = BlogCategory::factory(1)->create($initialArgs)->first();
         $post = BlogPost::factory()->create()->first();
-
 
         $postArgs = [
             'title' => $this->faker->words(3, true),
@@ -186,7 +221,7 @@ class PostControllerTest extends TestCase
      * @test
      */
     public function it_should_delete_a_post(){
-        $author = User::factory()->me()->create()->first();
+        $author = $this->author();
         $category = BlogCategory::factory(1)->create()->first();
         $post = BlogPost::factory()->create()->first();
 

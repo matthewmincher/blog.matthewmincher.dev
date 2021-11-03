@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()->me()->create();
+        User::factory()->state(['is_author' => true])->create();
         BlogTag::factory(25)->create();
         BlogCategory::factory(2)->create();
         BlogPost::factory(50)->create();

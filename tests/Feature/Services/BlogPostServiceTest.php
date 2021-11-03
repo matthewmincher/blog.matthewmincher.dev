@@ -3,10 +3,12 @@
 namespace Tests\Feature\Services;
 
 use App\Models\BlogCategory;
+use App\Models\BlogTag;
 use App\Models\User;
 use App\Services\BlogPostService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class BlogPostServiceTest extends TestCase
@@ -22,7 +24,7 @@ class BlogPostServiceTest extends TestCase
         $category = BlogCategory::factory(1)->create()->first();
 
         $postArgs = [
-            'title' => $this->faker->words(3, true),
+            'title' => $this->faker->words(2, true),
             'content' => $this->faker->sentences(3, true),
             'blog_category_id' => $category->id,
             'published' => true,
@@ -38,6 +40,35 @@ class BlogPostServiceTest extends TestCase
             'published' => true,
             'user_id' => $user->id
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function it_edits_a_post(){
+        $service = resolve(BlogPostService::class);
+        $user = User::factory(1)->create()->first();
+        $category = BlogCategory::factory(1)->create()->first();
+
+        $createArgs = [
+            'title' => $this->faker->words(3, true),
+            'content' => $this->faker->sentences(3, true),
+            'blog_category_id' => $category->id,
+            'published' => false,
+            'slug' => 'slug',
+            'tags' => null
+        ];
+        $post = $service->createPostForUser($createArgs, $user);
+
+        $editArgs = $createArgs;
+        $changedArgs = [
+            'title' => 'New Title',
+            'content' => 'New Content',
+            'published' => true
+        ];
+        $editArgs = array_merge($editArgs, $changedArgs);
+        $service->updatePost($editArgs, $post);
+        $this->assertDatabaseHas('blog_posts', $changedArgs);
     }
 
     /**

@@ -49,7 +49,7 @@
                 <div class="column has-text-right">
                     <div>
                         @auth
-                            <a href="{{ url('/dashboard') }}" class="">Dashboard</a>
+                            <a href="{{ url('logout') }}" class="">Log out</a>
                         @else
                             <a href="{{ route('login') }}" class="">Log in</a>
                         @endauth

@@ -10,6 +10,6 @@ abstract class TestCase extends BaseTestCase
     use CreatesApplication;
 
     protected function author(){
-        return User::factory()->create(['is_author' => true])->first();
+        return User::factory()->state(['is_author' => true])->create();
     }
 }
