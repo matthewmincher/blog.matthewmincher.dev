@@ -49,8 +49,9 @@ class BlogPost extends Model
     protected $fillable = ['title', 'content', 'slug', 'user_id', 'blog_category_id', 'published'];
 
     public function comments(){
-        return $this->hasMany(BlogPostComment::class);
+        return $this->morphMany(Comment::class, 'commentable');
     }
+
     public function category(){
         return $this->belongsTo(BlogCategory::class, 'blog_category_id');
     }

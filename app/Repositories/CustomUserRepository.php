@@ -14,12 +14,18 @@ class CustomUserRepository extends Auth0UserRepository
         $user = User::firstOrCreate(['sub' => $profile['sub']], [
             'email' => $profile['email'] ?? '',
             'name' => $profile['name'] ?? '',
+            'picture' => $profile['picture'] ?? null,
             'api_token' => Str::random(60)
         ]);
 
         $profileIsAdministrator = in_array('Administrator', $profile['http://www.matthewmincher.dev/roles'] ?? [], true);
         if($profileIsAdministrator !== $user->is_author){
             $user->is_author = $profileIsAdministrator;
+        }
+        if($user->picture !== $profile['picture']){
+            $user->picture = $profile['picture'];
+        }
+        if($user->isDirty()){
             $user->save();
         }
 
@@ -34,5 +40,10 @@ class CustomUserRepository extends Auth0UserRepository
     public function getUserByUserInfo(array $userinfo) : Authenticatable
     {
         return $this->upsertUser( $userinfo['profile'] );
+    }
+
+    public function getUserByIdentifier($identifier): ?Authenticatable
+    {
+        return User::find($identifier);
     }
 }

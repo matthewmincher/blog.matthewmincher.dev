@@ -12,11 +12,12 @@ use App\Http\Controllers\Controller;
 
 class Auth0IndexController extends Controller
 {
-    public function login(){
+    public function login(Request $request){
         if (Auth::check()) {
-            return redirect()->intended('/');
+            return redirect()->back();
         }
 
+        session(['auth_return_to_url' => url()->previous()]);
         return App::make('auth0')->login(
             null,
             null,

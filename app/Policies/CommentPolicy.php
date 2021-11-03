@@ -2,17 +2,16 @@
 
 namespace App\Policies;
 
-use App\Models\BlogPost;
+use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Symfony\Component\HttpFoundation\Response;
 
-class BlogPostPolicy
+class CommentPolicy
 {
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any model.
+     * Determine whether the user can view any models.
      *
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
@@ -26,12 +25,12 @@ class BlogPostPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\BlogPost  $blogPost
+     * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(?User $user, BlogPost $blogPost)
+    public function view(?User $user, Comment $comment)
     {
-        return optional($user)->is_author || $blogPost->published;
+        return true;
     }
 
     /**
@@ -42,53 +41,61 @@ class BlogPostPolicy
      */
     public function create(User $user)
     {
-        return $user->is_author;
+        return true;
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\BlogPost  $blogPost
+     * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, BlogPost $blogPost)
+    public function update(User $user, Comment $comment)
     {
-        return $user->id === $blogPost->user->id || $user->is_author;
+        return false;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\BlogPost  $blogPost
+     * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, BlogPost $blogPost)
+    public function delete(User $user, Comment $comment)
     {
-        return $user->is_author;
+        if($user->is_author){
+            return true;
+        }
+
+        if($user->id === $comment->user_id && $comment->created_at->isLastMinute()){
+            return true;
+        }
+
+        return false;
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\BlogPost  $blogPost
+     * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, BlogPost $blogPost)
+    public function restore(User $user, Comment $comment)
     {
-        return $user->is_author;
+        return false;
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\BlogPost  $blogPost
+     * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, BlogPost $blogPost)
+    public function forceDelete(User $user, Comment $comment)
     {
         return false;
     }

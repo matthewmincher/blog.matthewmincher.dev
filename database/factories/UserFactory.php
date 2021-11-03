@@ -29,6 +29,7 @@ class UserFactory extends Factory
             'name' => $this->faker->name(),
             'email' => $email,
             'sub' => 'internal:'.$email,
+            'picture' => 'https://picsum.photos/seed/'.$email.'/200/200',
             'remember_token' => Str::random(10)
         ];
     }

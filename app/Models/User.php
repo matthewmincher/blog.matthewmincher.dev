@@ -50,7 +50,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'sub'
+        'sub',
+        'picture'
     ];
 
     /**
@@ -69,7 +70,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $casts = [
-
+        'is_author' => 'boolean'
     ];
 
     public function posts(){

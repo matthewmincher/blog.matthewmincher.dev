@@ -6369,3 +6369,20 @@ readers do not read off random characters that represent icons */
     overflow-x: hidden;
   }
 }
+.postComments .media + .media {
+  border-top-color: transparent;
+}
+
+.commentsDivider {
+  position: relative;
+  overflow: hidden;
+}
+.commentsDivider .icon {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  width: 4em;
+  color: whitesmoke;
+}

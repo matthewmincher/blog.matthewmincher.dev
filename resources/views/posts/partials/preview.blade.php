@@ -6,9 +6,9 @@
                 Posted by {{$post->user->name}}
 
                 @if($post->created_at > now()->subDay())
-                    {{$post->created_at->diffForHumans()}}
+                    <span title="{{$post->created_at->toRssString()}}">{{$post->created_at->diffForHumans()}}</span>
                 @else
-                    on <span title="{{$post->created_at->toDayDateTimeString()}}">{{$post->created_at->format('jS M \a\t g:ia')}}</span>
+                    on <span title="{{$post->created_at->toRssString()}}">{{$post->created_at->format('jS M \a\t g:ia')}}</span>
                 @endif
             </h3>
         </div>
@@ -20,6 +20,17 @@
                             </span>
                 </a>
             @endcan
+                @can('delete', $post)
+                    <form class="is-inline-block" method="POST" action="{{route('posts.destroy', ['blog_post' => $post])}}">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="button is-small is-light">
+                            <span class="icon is-small">
+                              <i class="fas fa-trash"></i>
+                            </span>
+                        </button>
+                    </form>
+                @endcan
         </div>
     </div>
 

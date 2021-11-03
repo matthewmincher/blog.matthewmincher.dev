@@ -13,7 +13,7 @@
                     @if($post->created_at > now()->subDay())
                         {{$post->created_at->diffForHumans()}}
                     @else
-                        on <span title="{{$post->created_at->toDayDateTimeString()}}">{{$post->created_at->format('jS M \a\t g:ia')}}</span>
+                        on <span title="{{$post->created_at->toRssString()}}">{{$post->created_at->format('jS M \a\t g:ia')}}</span>
                     @endif
                 </h2>
             </div>
@@ -44,5 +44,6 @@
         </div>
 
         @include('posts.partials.post_footer')
+        @include('posts.partials.comments')
     </div>
 @endsection

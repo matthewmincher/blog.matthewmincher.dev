@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostCommentController;
 use Auth0\Login\Auth0Controller;
 use App\Http\Controllers\Auth\Auth0IndexController;
 use App\Http\Controllers\TagController;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CategoryController;
 use App\Models\BlogPost;
+use \Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +27,6 @@ Route::get('/auth0/callback', [Auth0Controller::class, 'callback'])->name('auth0
 Route::get('/login', [Auth0IndexController::class, 'login'])->name('login');
 Route::get('/logout', [Auth0IndexController::class, 'logout'])->name('logout');
 
-
 Route::resource('categories', CategoryController::class)->except('show')->parameters([
     'categories' => 'blog_category'
 ]);
@@ -40,8 +41,18 @@ Route::resource('posts', PostController::class)->except('show')->parameters([
     'posts' => 'blog_post'
 ]);
 Route::get('posts/{blog_post:combined_slug}', [PostController::class, 'show'])->name('posts.show');
+Route::resource('posts.comments', PostCommentController::class)->only(['store', 'destroy'])->parameters([
+    'posts' => 'blog_post'
+]);
 
-Route::get('/', function () {
+Route::get('/', function (Request $request) {
+    $authRedirectUrl = $request->session()->get('auth_return_to_url');
+    if($authRedirectUrl){
+        $request->session()->forget('auth_return_to_url');
+
+        return redirect($authRedirectUrl);
+    }
+
     return redirect()->route('posts.index');
 });
 

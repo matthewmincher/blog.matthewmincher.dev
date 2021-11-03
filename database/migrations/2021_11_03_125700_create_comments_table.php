@@ -3,9 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use App\Models\BlogPost;
 
-class CreateBlogPostCommentsTable extends Migration
+class CreateCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,17 +13,12 @@ class CreateBlogPostCommentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('blog_post_comments', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignIdFor(BlogPost::class)->constrained();
-
-            $table->string('title');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->morphs('commentable');
             $table->text('content');
-
-            $table->boolean('published');
-            $table->timestamp('published_at');
-
             $table->timestamps();
         });
     }
@@ -36,6 +30,6 @@ class CreateBlogPostCommentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('blog_post_comments');
+        Schema::dropIfExists('comments');
     }
 }

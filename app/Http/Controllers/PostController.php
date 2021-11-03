@@ -36,7 +36,7 @@ class PostController extends Controller
         }
 
         return view('posts.index', [
-            'posts' => $posts->with(['category', 'tags', 'user'])->paginate(5)
+            'posts' => $posts->withCount(['comments'])->with(['category', 'tags', 'user'])->paginate(5)
         ]);
     }
 
@@ -83,6 +83,8 @@ class PostController extends Controller
         if($combinedSlug !== $blogPost->combined_slug){
             return redirect()->route('posts.show', ['blog_post' => $blogPost])->setStatusCode(Response::HTTP_MOVED_PERMANENTLY);
         }
+
+        $blogPost->load(['comments.user']);
 
         return view('posts.show', [
             'post' => $blogPost

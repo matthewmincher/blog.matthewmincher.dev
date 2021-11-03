@@ -58,7 +58,7 @@ class CategoryController extends Controller
     {
         return view('categories.show', [
             'category' => $blogCategory,
-            'posts' => $blogCategory->posts()->published()->ordered()->paginate(5)
+            'posts' => $blogCategory->posts()->withCount(['comments'])->with(['category', 'tags', 'user'])->published()->ordered()->paginate(5)
         ]);
     }
 

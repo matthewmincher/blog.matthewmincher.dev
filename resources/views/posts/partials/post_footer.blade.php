@@ -1,4 +1,4 @@
-<div class="mt-6">
+<div class="mt-5">
     <span class="icon-text">
         <span class="icon">
             <i class="fas fa-bookmark"></i>
@@ -25,3 +25,17 @@
         </span>
     </div>
 @endif
+@if($post->comments_count > 0)
+    <div>
+        <span class="icon-text">
+            <span class="icon">
+                <i class="fas fa-comment"></i>
+            </span>
+            <span>
+                {{$post->comments_count}} {{\Illuminate\Support\Str::plural('comment', $post->comments_count)}}
+            </span>
+
+        </span>
+    </div>
+@endif
+

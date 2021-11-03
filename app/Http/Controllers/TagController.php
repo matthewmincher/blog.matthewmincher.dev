@@ -58,7 +58,7 @@ class TagController extends Controller
     {
         return view('tags.show', [
             'tag' => $blogTag,
-            'posts' => $blogTag->posts()->published()->ordered()->with(['tags', 'category', 'user'])->paginate(5)
+            'posts' => $blogTag->posts()->withCount(['comments'])->with(['category', 'tags', 'user'])->published()->ordered()->with(['tags', 'category', 'user'])->paginate(5)
         ]);
     }
 
