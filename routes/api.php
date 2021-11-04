@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('v1')->name('api.v1.')->middleware(['forcejson', 'auth:api'])->group(function () {
+Route::prefix('v1')->name('api.v1.')->middleware(['forcejson'])->group(function () {
     Route::apiResource('categories', \App\Http\Controllers\Api\V1\CategoryController::class)->parameters([
         'categories' => 'blog_category'
     ]);
