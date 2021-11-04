@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTagRequest;
 use App\Models\BlogTag;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 class TagController extends Controller
 {
@@ -21,10 +20,14 @@ class TagController extends Controller
      */
     public function index()
     {
-        return view('tags.index', [
-            'tags' => BlogTag::withCount(['posts' => function(Builder $query){
+        $tagCloud = Cache::tags('tags')->rememberForever('tag_cloud', function(){
+            return BlogTag::withCount(['posts' => function(Builder $query){
                 $query->published();
-            }])->orderBy('posts_count', 'desc')->get()
+            }])->orderBy('posts_count', 'desc')->get();
+        });
+
+        return view('tags.index', [
+            'tags' => $tagCloud
         ]);
     }
 
@@ -56,6 +59,7 @@ class TagController extends Controller
      */
     public function show(BlogTag $blogTag)
     {
+
         return view('tags.show', [
             'tag' => $blogTag,
             'posts' => $blogTag->posts()->withCount(['comments'])->with(['category', 'tags', 'user'])->published()->ordered()->with(['tags', 'category', 'user'])->paginate(5)

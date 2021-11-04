@@ -1,8 +1,7 @@
 <article class="media">
     <figure class="media-left mr-2">
         <p class="image is-32x32">
-            <img class="is-rounded" src="{{$comment->user->picture}}" />
-
+            <img class="is-rounded" src="{{ $comment->user->picture_with_fallback }}" />
         </p>
     </figure>
     <div class="media-content">

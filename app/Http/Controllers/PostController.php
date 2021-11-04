@@ -84,7 +84,10 @@ class PostController extends Controller
             return redirect()->route('posts.show', ['blog_post' => $blogPost])->setStatusCode(Response::HTTP_MOVED_PERMANENTLY);
         }
 
-        $blogPost->load(['comments.user']);
+        $blogPost->loadCount('comments');
+        $blogPost->load([ // Eventually this could paginate
+            'comments', 'comments.user'
+        ]);
 
         return view('posts.show', [
             'post' => $blogPost

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\PostCommentController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserPreferenceController;
 use Auth0\Login\Auth0Controller;
 use App\Http\Controllers\Auth\Auth0IndexController;
 use App\Http\Controllers\TagController;
@@ -24,8 +26,8 @@ use \Illuminate\Http\Request;
 */
 
 Route::get('/auth0/callback', [Auth0Controller::class, 'callback'])->name('auth0-callback');
-Route::get('/login', [Auth0IndexController::class, 'login'])->name('login');
-Route::get('/logout', [Auth0IndexController::class, 'logout'])->name('logout');
+Route::get('/users/login', [Auth0IndexController::class, 'login'])->name('login');
+Route::get('/users/logout', [Auth0IndexController::class, 'logout'])->name('logout');
 
 Route::resource('categories', CategoryController::class)->except('show')->parameters([
     'categories' => 'blog_category'
@@ -44,6 +46,8 @@ Route::get('posts/{blog_post:combined_slug}', [PostController::class, 'show'])->
 Route::resource('posts.comments', PostCommentController::class)->only(['store', 'destroy'])->parameters([
     'posts' => 'blog_post'
 ]);
+Route::resource('users', UserController::class)->except(['index', 'create', 'store', 'edit']);
+Route::resource('users.preferences', UserPreferenceController::class)->only(['store']);
 
 Route::get('/', function (Request $request) {
     $authRedirectUrl = $request->session()->get('auth_return_to_url');
@@ -55,8 +59,4 @@ Route::get('/', function (Request $request) {
 
     return redirect()->route('posts.index');
 });
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 

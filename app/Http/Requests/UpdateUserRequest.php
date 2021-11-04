@@ -8,7 +8,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Validator;
 
-class StorePostCommentRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +27,7 @@ class StorePostCommentRequest extends FormRequest
     public function rules()
     {
         return [
-            'content' => 'required|min:10|max:2500'
+            'email' => 'nullable|email'
         ];
     }
 }

@@ -18,14 +18,15 @@
 
 @can('create', \App\Models\Comment::class)
 <hr />
-<form class="" method="POST" action="{{route('posts.comments.store', ['blog_post' => $post])}}">
+
+<form id="commentform" class="" method="POST" action="{{route('posts.comments.store', ['blog_post' => $post]) . '#commentform'}}">
     @csrf
 
     <div class="field is-grouped">
         <div class="control is-expanded">
             <textarea
-                @class(['textarea', 'has-fixed-size', 'is-danger' => $errors->has('content')])
-                name="content" data-autogrow="5"  rows="1" placeholder="Leave a comment..."></textarea>
+                name="content" data-autogrow="5"  rows="1" placeholder="Leave a comment..." minlength="10" required maxlength="2500"
+                @class(['textarea', 'has-fixed-size', 'is-danger' => $errors->has('content')])>{{old('content')}}</textarea>
             <div class="columns">
                 <div class="column">
                     @error('content')

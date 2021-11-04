@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CommentPosted;
 use App\Http\Requests\StorePostCommentRequest;
 use App\Models\BlogPost;
 use App\Models\Comment;
@@ -21,7 +22,9 @@ class PostCommentController extends Controller
         $validated = $request->validated();
         $validated['user_id'] = $request->user()->id;
 
-        $blogPost->comments()->create($validated);
+        $comment = $blogPost->comments()->create($validated);
+
+        event(new CommentPosted($comment));
 
         return redirect()->route('posts.show', ['blog_post' => $blogPost]);
     }

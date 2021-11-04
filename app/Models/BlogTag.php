@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Observers\Traits\InvalidatesTagsTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -32,7 +33,7 @@ use Illuminate\Support\Str;
  */
 class BlogTag extends Model
 {
-    use HasFactory;
+    use HasFactory, InvalidatesTagsTrait;
 
     protected $fillable = ['title', 'slug', 'content'];
 

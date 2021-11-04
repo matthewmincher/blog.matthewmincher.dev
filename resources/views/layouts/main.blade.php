@@ -49,7 +49,13 @@
                 <div class="column has-text-right">
                     <div>
                         @auth
-                            <a href="{{ url('logout') }}" class="">Log out</a>
+                            @if(auth()->user()->is_author)
+                                <a href="{{  route('users.show', ['user' => auth()->user()])  }}">{{auth()->user()->name}}</a>
+                            @else
+                                {{auth()->user()->name}}
+                            @endif
+                            <br />
+                            <a href="{{ route('logout') }}" class="">Log out</a>
                         @else
                             <a href="{{ route('login') }}" class="">Log in</a>
                         @endauth
