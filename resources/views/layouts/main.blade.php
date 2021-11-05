@@ -45,6 +45,9 @@
             <div class="columns is-gapless">
                 <div class="column">
                     © Matthew Mincher 2021
+                    <br />
+                    <i class="fab fa-github"></i>
+                    <a href="https://github.com/matthewmincher/blog.matthewmincher.dev" target="_blank" rel="noreferrer">View on Github</a>
                 </div>
                 <div class="column has-text-right">
                     <div>
