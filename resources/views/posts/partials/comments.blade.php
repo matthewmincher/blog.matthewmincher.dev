@@ -27,7 +27,7 @@
             <textarea
                 name="content" data-autogrow="5"  rows="1" placeholder="Leave a comment..." minlength="10" required maxlength="2500"
                 @class(['textarea', 'has-fixed-size', 'is-danger' => $errors->has('content')])>{{old('content')}}</textarea>
-            <div class="columns">
+            <div class="columns is-mobile">
                 <div class="column">
                     @error('content')
                     <p class="help is-danger">{{ $message }}</p>
@@ -55,7 +55,7 @@
 @else
     <div class="has-text-centered has-text-grey mt-5">
         <div class="level is-inline-flex">
-            <a class="button level-item" href="{{route('login')}}">Log in</a>
+            <a class="button level-item mb-0" href="{{route('login')}}">Log in</a>
             <span class="level-item ml-2">to leave a comment</span>
         </div>
 

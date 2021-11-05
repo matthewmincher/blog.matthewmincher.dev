@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="constrainedContent pt-4 is-relative">
-        <div class="columns">
+        <div class="columns is-mobile">
             <div class="column is-four-fifths">
                 <h1 class="title">All Tags</h1>
             </div>
@@ -23,7 +23,7 @@
             <div class="field is-grouped is-grouped-multiline is-justify-content-center">
             @foreach($tags as $tag)
                 <div class="control">
-                    <div class="tags has-addons are-large">
+                    <div class="tags has-addons">
                         <a class="tag" href="{{route('tags.show', ['blog_tag' => $tag])}}">{{$tag->title}}</a>
                         <span class="tag is-dark">{{$tag->posts_count}}</span>
                     </div>
@@ -39,12 +39,5 @@
                 </div>
             </article>
         @endif
-
-
-        @forelse($tags as $tag)
-
-        @empty
-
-        @endforelse
     </div>
 @endsection

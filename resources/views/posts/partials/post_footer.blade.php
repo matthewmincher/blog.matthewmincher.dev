@@ -12,7 +12,7 @@
 </div>
 @if($post->tags->isNotEmpty())
     <div>
-        <span class="icon-text">
+        <span class="icon-text is-flex-wrap-nowrap">
             <span class="icon">
                 <i class="fas fa-tags"></i>
             </span>

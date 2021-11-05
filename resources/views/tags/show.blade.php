@@ -4,10 +4,10 @@
 
 @section('content')
     <div class="constrainedContent pt-4 is-relative">
-        <div class="columns">
+        <div class="columns is-mobile mb-0">
             <div class="column is-four-fifths">
                 <h1 class="title">{{$tag->title}}</h1>
-                <h3 class="subtitle is-6">{{$posts->total()}} @choice('post|posts', $posts->total())</h3>
+                <h3 class="subtitle is-6 mb-2">{{$posts->total()}} @choice('post|posts', $posts->total())</h3>
                 <p>{{$tag->content}}</p>
             </div>
             <div class="column has-text-right">
@@ -32,7 +32,7 @@
             </div>
         </div>
 
-        <hr />
+        <hr class="mt-2" />
 
         @forelse($posts as $post)
             @include('posts.partials.preview')

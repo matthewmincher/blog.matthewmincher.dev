@@ -32,6 +32,14 @@ task('build', function () {
     run('cd {{release_path}} && build');
 });
 
+task('deploy:mix', function () {
+    run('cd {{release_path}} && npm run prod');
+});
+
+
+after('deploy:vendors', 'npm:install');
+after('deploy:update_code', 'deploy:mix');
+
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
 

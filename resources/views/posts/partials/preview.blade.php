@@ -1,5 +1,5 @@
 <div class="box" @if(!$post->published)style="background-color: #ffcece;"@endif>
-    <div class="columns">
+    <div class="columns is-mobile">
         <div class="column is-four-fifths">
             <h2 class="title is-5"><a href="{{route('posts.show', ['blog_post' => $post])}}">{{$post->title}}</a></h2>
             <h3 class="subtitle is-7">
@@ -12,6 +12,7 @@
                 @endif
             </h3>
         </div>
+
         <div class="column has-text-right">
             @can('update', $post)
                 <a href="{{route('posts.edit', ['blog_post' => $post])}}" class="button is-small is-light">

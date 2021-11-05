@@ -42,25 +42,51 @@
 
     <footer class="main">
         <div class="constrainedContent">
-            <div class="columns is-gapless">
+            <div class="columns is-gapless is-mobile">
                 <div class="column">
-                    © Matthew Mincher 2021
+                    <span class="icon-text is-flex-wrap-nowrap">
+                        <span class="icon">
+                            <i class="fab fa-github"></i>
+                        </span>
+                         <a href="https://github.com/matthewmincher/blog.matthewmincher.dev" target="_blank" rel="noreferrer">View on Github</a>
+                    </span>
                     <br />
-                    <i class="fab fa-github"></i>
-                    <a href="https://github.com/matthewmincher/blog.matthewmincher.dev" target="_blank" rel="noreferrer">View on Github</a>
+                    <span class="icon-text is-flex-wrap-nowrap">
+                        <span class="icon">
+                            <i class="fas fa-copyright"></i>
+                        </span>
+                        Matthew Mincher 2021
+                    </span>
                 </div>
                 <div class="column has-text-right">
                     <div>
                         @auth
-                            @if(auth()->user()->is_author)
-                                <a href="{{  route('users.show', ['user' => auth()->user()])  }}">{{auth()->user()->name}}</a>
-                            @else
-                                {{auth()->user()->name}}
-                            @endif
+                            <span class="icon-text is-flex-wrap-nowrap">
+                                <a href="{{ route('logout') }}" class="">Log out</a>
+                                <span class="icon">
+                                    <i class="fas fa-power-off"></i>
+                                </span>
+                            </span>
                             <br />
-                            <a href="{{ route('logout') }}" class="">Log out</a>
+                            <span class="icon-text is-flex-wrap-nowrap">
+                                @if(auth()->user()->is_author)
+                                    <a href="{{  route('users.show', ['user' => auth()->user()])  }}">{{auth()->user()->name}}</a>
+                                @else
+                                    {{auth()->user()->name}}
+                                @endif
+                                <span class="icon">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                            </span>
+
+
                         @else
-                            <a href="{{ route('login') }}" class="">Log in</a>
+                            <span class="icon-text is-flex-wrap-nowrap">
+                                <a href="{{ route('login') }}" class="">Log in</a>
+                                <span class="icon">
+                                    <i class="fas fa-power-off"></i>
+                                </span>
+                            </span>
                         @endauth
                     </div>
                 </div>
