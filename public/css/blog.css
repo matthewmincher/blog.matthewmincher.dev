@@ -34,7 +34,7 @@ nav.top ul {
 }
 nav.top li {
   display: flex;
-  flex: 0 1 auto;
+  flex: 0 0 auto;
   flex-direction: row;
 }
 nav.top a {
@@ -110,6 +110,13 @@ nav.top .navbar-end a:hover, nav.top .navbar-end a.active {
   border: 2px solid #073B3A;
 }
 
+@media screen and (max-width: 350px) {
+  nav.top .navbar-end a {
+    padding: 5px 20px;
+    border-radius: 20px;
+    font-size: 80%;
+  }
+}
 nav.top-sub {
   background-color: #F6F4F3;
 }
@@ -203,7 +210,7 @@ footer.main {
   background-color: #F6F4F3;
   border-top: 5px solid #e2e1df;
   min-height: 60px;
-  padding: 10px 0;
+  padding: 5px 0;
   box-sizing: border-box;
   font-size: 13px;
   color: #073B3A;
@@ -6385,4 +6392,11 @@ readers do not read off random characters that represent icons */
   background-color: white;
   width: 4em;
   color: whitesmoke;
+}
+
+@media screen and (max-width: 510px) {
+  .pagination-list li {
+    flex-grow: 0;
+    flex-shrink: 1;
+  }
 }

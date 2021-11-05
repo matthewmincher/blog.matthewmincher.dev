@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="constrainedContent pt-4 is-relative">
-        <div class="columns">
+        <div class="columns is-mobile">
             <div class="column is-four-fifths">
                 <h1 class="title">Blog Posts</h1>
             </div>

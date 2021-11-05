@@ -11,7 +11,7 @@
         </div>
         @enderror
 
-        <div class="columns">
+        <div class="columns is-mobile">
             <div class="column is-four-fifths">
                 <h1 class="title">{{$category->title}}</h1>
                 <h3 class="subtitle is-6">{{$posts->total()}} @choice('post|posts', $posts->total())</h3>

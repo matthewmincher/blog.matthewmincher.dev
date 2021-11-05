@@ -1,4 +1,4 @@
-<div class="columns">
+<div class="columns is-mobile">
     <div class="column">
         <div class="field">
             <label class="label">Title</label>
