@@ -3,6 +3,10 @@ namespace Deployer;
 
 require 'recipe/laravel.php';
 
+set('bin/npm', function () {
+    return locateBinaryPath('npm');
+});
+
 // Project name
 set('application', 'blog.matthewmincher.dev');
 
@@ -28,6 +32,16 @@ host('blog.matthewmincher.dev')
 
 // Tasks
 
+desc('Install npm packages');
+task('npm:install', function () {
+    if (has('previous_release')) {
+        if (test('[ -d {{previous_release}}/node_modules ]')) {
+            run('cp -R {{previous_release}}/node_modules {{release_path}}');
+        }
+    }
+    run("cd {{release_path}} && {{bin/npm}} install");
+});
+
 task('build', function () {
     run('cd {{release_path}} && build');
 });
@@ -38,7 +52,7 @@ task('deploy:mix', function () {
 
 
 after('deploy:vendors', 'npm:install');
-after('deploy:update_code', 'deploy:mix');
+after('npm:install', 'deploy:mix');
 
 // [Optional] if deploy fails automatically unlock.
 after('deploy:failed', 'deploy:unlock');
@@ -46,4 +60,5 @@ after('deploy:failed', 'deploy:unlock');
 // Migrate database before symlink new release.
 
 before('deploy:symlink', 'artisan:migrate');
+after('deploy:symlink', 'artisan:queue:restart');
 
